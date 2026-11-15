@@ -1,0 +1,91 @@
+{
+  "seo": {
+    "title": "Назва сайту — короткий опис",
+    "description": "Опис сайту для пошуку і соцмереж, 140–160 символів.",
+    "ogImage": "/images/og-image.jpg"
+  },
+  "header": {
+    "logo": "Syntrex",
+    "logoImage": "/images/logo.svg",
+    "button": "Get Quote",
+    "menu": "Menu",
+    "close": "Close",
+    "menuButton": "Read More",
+    "navLeft": [
+      {
+        "label": "About us",
+        "href": "#block-2"
+      },
+      {
+        "label": "Services",
+        "href": "#block-3"
+      },
+      {
+        "label": "Why us",
+        "href": "#block-4"
+      }
+    ],
+    "navRight": [
+      {
+        "label": "Process",
+        "href": "#block-6"
+      },
+      {
+        "label": "News",
+        "href": "#block-8"
+      }
+    ]
+  },
+  "contacts": {
+    "phone": "+31 10 587 24 90",
+    "email": "hello@syntrex.com",
+    "address": "145 Harbor Avenue, Rotterdam 3011, Netherlands",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=145+Harbor+Avenue%2C+Rotterdam+3011%2C+Netherlands"
+  },
+  "footer": {
+    "sitemapTitle": "Sitemap",
+    "contactsTitle": "Contacts",
+    "officeTitle": "Head Office",
+    "newsletter": {
+      "title": "Subscribe to our newsletter",
+      "placeholder": "E-mail address",
+      "button": "Subscribe",
+      "sending": "Sending…",
+      "success": "Thank you for subscribing!",
+      "error": "Something went wrong. Please try again."
+    },
+    "upLabel": "Back to top",
+    "socials": [
+      {
+        "name": "Facebook",
+        "url": "https://facebook.com",
+        "icon": "/images/social-facebook.svg"
+      },
+      {
+        "name": "LinkedIn",
+        "url": "https://linkedin.com",
+        "icon": "/images/social-linkedin.svg"
+      },
+      {
+        "name": "Instagram",
+        "url": "https://instagram.com",
+        "icon": "/images/social-instagram.svg"
+      }
+    ],
+    "legal": [
+      {
+        "label": "Privacy Policy",
+        "href": "/privacy-policy/"
+      },
+      {
+        "label": "Terms of Use",
+        "href": "/terms-of-use/"
+      }
+    ],
+    "rights": "All rights reserved",
+    "credit": {
+      "label": "Website by Vladlen Bordiuhov",
+      "url": "https://www.instagram.com/bordiuhovcreates/"
+    }
+  }
+}

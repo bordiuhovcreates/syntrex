@@ -1,0 +1,286 @@
+{
+  "hero": {
+    "titleStart": "Powering",
+    "titleAccent": "Global Trade",
+    "titleEnd": "Every Day",
+    "subtitle": "International freight solutions designed to move cargo quickly, safely, and efficiently across global markets.",
+    "button": "Read More",
+    "buttonLink": "#block-2",
+    "image": "/images/hero-container.webp",
+    "news": {
+      "label": "News & Insights",
+      "title": "Freight Outlook",
+      "text": "Supply Chain Performance",
+      "image": "/images/news-1.webp",
+      "link": "/news/freight-outlook/"
+    }
+  },
+  "about": {
+    "label": "How it works",
+    "titleAccent": "For over 10 years",
+    "title": ", we’ve been helping companies transport goods efficiently across Europe, Asia, and North America.",
+    "clients": [
+      {
+        "name": "AtlasTrade",
+        "category": "Manufacturing",
+        "logo": "/images/client-atlastrade.svg",
+        "logoWidth": 68,
+        "logoHeight": 31
+      },
+      {
+        "name": "BlueHarbor",
+        "category": "Retail",
+        "logo": "/images/client-blueharbor.svg",
+        "logoWidth": 50,
+        "logoHeight": 65
+      },
+      {
+        "name": "Velora",
+        "category": "Healthcare",
+        "logo": "/images/client-velora.svg",
+        "logoWidth": 62,
+        "logoHeight": 47
+      },
+      {
+        "name": "NexPort",
+        "category": "Automotive",
+        "logo": "/images/client-nexport.svg",
+        "logoWidth": 52,
+        "logoHeight": 53
+      }
+    ]
+  },
+  "services": {
+    "label": "Freight solutions",
+    "title": "Services",
+    "items": [
+      {
+        "title": "Ocean Freight",
+        "text": "Comprehensive container shipping solutions connecting key ports and global trade routes. We manage every stage of transportation to ensure that your cargo arrives safely, quickly, efficiently, and always exactly on schedule.",
+        "image": "/images/service-ocean.webp"
+      },
+      {
+        "title": "Air Freight",
+        "text": "Fast and secure air transportation for urgent shipments requiring speed and full precision. Ideal for high-value goods, critical deliveries, and time-sensitive supply chain operations that cannot wait for slower delivery methods.",
+        "image": "/images/service-air.webp"
+      },
+      {
+        "title": "Road Freight",
+        "text": "Reliable ground transportation connecting ports, warehouses, distribution centers, and final destinations. Flexible trucking solutions tailored to regional and international logistics and supply chain needs across every market.",
+        "image": "/images/service-road.webp"
+      },
+      {
+        "title": "Customs Clearance",
+        "text": "Professional customs management ensuring smooth and fast cross-border transportation. Our experienced specialists handle the full documentation, all compliance requirements, and customs procedures to minimize delays.",
+        "image": "/images/service-customs.webp"
+      },
+      {
+        "title": "Warehousing",
+        "text": "Secure storage and inventory solutions that support modern, fast-moving supply chains. From short-term warehousing to distribution and order fulfillment, we help keep all of your operations running smoothly and efficiently.",
+        "image": "/images/service-warehousing.webp"
+      }
+    ]
+  },
+  "stats": {
+    "title": "We help businesses transport cargo across international markets through reliable freight solutions, strategic routing, and transparent operations.",
+    "button": "Get Quote",
+    "video": "/images/stats-pc.mp4",
+    "videoMobile": "/images/stats-m.mp4",
+    "poster": "/images/stats-poster.webp",
+    "posterMobile": "/images/stats-poster-m.webp",
+    "items": [
+      {
+        "number": 50,
+        "suffix": "+",
+        "label": "Countries served"
+      },
+      {
+        "number": 12000,
+        "suffix": "+",
+        "label": "Cargo shipments"
+      },
+      {
+        "number": 98,
+        "suffix": "%",
+        "label": "On-time deliveries"
+      }
+    ]
+  },
+  "perks": {
+    "label": "Reliability at scale",
+    "title": "Built for global trade",
+    "items": [
+      {
+        "title": "Real-time visibility",
+        "text": "Track every shipment through a centralized monitoring system with live status updates, route transparency, and complete operational visibility from departure to final delivery.",
+        "icon": "/images/perk-visibility.svg"
+      },
+      {
+        "title": "Global freight Network",
+        "text": "Access a trusted network of ports, carriers, warehouses, and reliable logistics partners positioned across major international trade routes, transportation hubs, and key markets.",
+        "icon": "/images/perk-network.svg"
+      },
+      {
+        "title": "End-to-end coordination",
+        "text": "From route planning and customs paperwork to warehousing and final-mile delivery, every stage of your shipment is managed through a streamlined and fully transparent process.",
+        "icon": "/images/perk-coordination.svg"
+      }
+    ]
+  },
+  "process": {
+    "label": "From start to finish",
+    "title": "How cargo gets delivered",
+    "text": "Coordinating transportation, customs, and delivery through a streamlined logistics workflow.",
+    "button": "Get Quote",
+    "stages": [
+      {
+        "label": "Cargo Assessment",
+        "title": "Shipment Request",
+        "text": "Submit your shipment details, cargo specifications, destination requirements, and delivery expectations. Our specialists then define the best transport plan."
+      },
+      {
+        "label": "Strategic Planning",
+        "title": "Route Planning & Coordination",
+        "text": "We analyze routes, transportation methods, customs requirements, and schedules to build a logistics plan that balances speed, reliability, and cost efficiency."
+      },
+      {
+        "label": "Live Monitoring",
+        "title": "Cargo Transportation & Tracking",
+        "text": "Your cargo moves through our global transportation network with real-time tracking, proactive updates, and continuous oversight along the entire journey."
+      },
+      {
+        "label": "Final Delivery & Support",
+        "title": "Reliable Execution",
+        "text": "Every shipment is delivered safely and on schedule, backed by our dedicated team of logistics experts who ensure a smooth handoff at the final destination."
+      }
+    ]
+  },
+  "quote": {
+    "lead": "Explore our international logistics network and request a tailored freight solution for your next shipment.",
+    "label": "Let’s talk logistics",
+    "title": "Request your freight quote",
+    "form": {
+      "firstName": {
+        "label": "First name*",
+        "placeholder": "Enter first name…"
+      },
+      "lastName": {
+        "label": "Last name",
+        "placeholder": "Enter last name…"
+      },
+      "email": {
+        "label": "E-mail address*",
+        "placeholder": "Enter email…"
+      },
+      "phone": {
+        "label": "Phone number*",
+        "placeholder": "Enter phone…"
+      },
+      "company": {
+        "label": "Company Name (Optional)",
+        "placeholder": "Enter company name…"
+      },
+      "message": {
+        "label": "Message*",
+        "placeholder": "Enter message..."
+      },
+      "button": "Get Quote",
+      "sending": "Sending…",
+      "error": "Something went wrong. Please try again.",
+      "successTitle": "Thank you!",
+      "successText": "Your request has been received. Our logistics team will contact you within one business day.",
+      "again": "Send another request"
+    },
+    "hubs": [
+      {
+        "city": "Vancouver",
+        "country": "Canada",
+        "lat": 49.3,
+        "lon": -123.1
+      },
+      {
+        "city": "Los Angeles",
+        "country": "USA",
+        "lat": 34.1,
+        "lon": -118.2
+      },
+      {
+        "city": "Chicago",
+        "country": "USA",
+        "lat": 41.9,
+        "lon": -87.6
+      },
+      {
+        "city": "New York",
+        "country": "USA",
+        "lat": 40.7,
+        "lon": -74
+      },
+      {
+        "city": "Mexico City",
+        "country": "Mexico",
+        "lat": 19.4,
+        "lon": -99.1
+      },
+      {
+        "city": "Madrid",
+        "country": "Spain",
+        "lat": 40.4,
+        "lon": -3.7
+      },
+      {
+        "city": "Rotterdam",
+        "country": "Netherlands",
+        "lat": 51.9,
+        "lon": 4.5
+      },
+      {
+        "city": "Helsinki",
+        "country": "Finland",
+        "lat": 60.2,
+        "lon": 24.9
+      },
+      {
+        "city": "Istanbul",
+        "country": "Türkiye",
+        "lat": 41,
+        "lon": 29
+      },
+      {
+        "city": "Dubai",
+        "country": "UAE",
+        "lat": 25.2,
+        "lon": 55.3
+      },
+      {
+        "city": "Mumbai",
+        "country": "India",
+        "lat": 19.1,
+        "lon": 72.9
+      },
+      {
+        "city": "Singapore",
+        "country": "Singapore",
+        "lat": 1.35,
+        "lon": 103.8
+      },
+      {
+        "city": "Shanghai",
+        "country": "China",
+        "lat": 31.2,
+        "lon": 121.5
+      },
+      {
+        "city": "Tokyo",
+        "country": "Japan",
+        "lat": 35.7,
+        "lon": 139.7
+      }
+    ]
+  },
+  "news": {
+    "label": "Industry updates",
+    "title": "News & Insights",
+    "allButton": "All news"
+  }
+}

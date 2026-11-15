@@ -1,0 +1,85 @@
+---
+// Картка статті: зверху тема і номер, фото з часом читання, назва, опис, знизу дата і «Read article».
+// Однакова в Блоці 8, на сторінці новин і під статтею; усі картки в ряду однакової висоти.
+import { url } from '../lib/url';
+import type { Post } from '../lib/news';
+import { readTime, formatDate, postHref } from '../lib/news';
+import blog from '../content/blog.json';
+
+interface Props { post: Post; index?: number }
+const { post, index = 0 } = Astro.props;
+const { title, description, image, category, date } = post.data;
+const num = `${String(index + 1).padStart(3, '0')}.`;
+---
+<a class="news-card" href={url(postHref(post))}>
+  <span class="news-card__top">
+    <span class="news-card__category">{category}</span>
+    <span class="news-card__num">{num}</span>
+  </span>
+  <span class="news-card__media">
+    <img src={url(image)} alt={title} loading="lazy" width="405" height="290" />
+    <span class="news-card__time">{readTime(post)} {blog.minRead}</span>
+  </span>
+  <h3 class="news-card__name">{title}</h3>
+  <p class="news-card__text">{description}</p>
+  <span class="news-card__bottom">
+    <span class="news-card__date">{formatDate(date)}</span>
+    <span class="news-card__more">
+      {blog.readArticle}
+      <svg viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M4 11.25l-.88-.87 6-6H3.75V3.13h7.5v7.5H10V5.25l-6 6Z" /></svg>
+    </span>
+  </span>
+</a>
+
+<style>
+  .news-card {
+    display: flex; flex-direction: column; height: 100%; padding: var(--space-sm);
+    border: 1px dashed var(--color-text-muted); border-radius: var(--radius-card);
+    font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium);
+    transition: border-color var(--duration) var(--ease);
+  }
+  .news-card:hover { border-color: var(--color-text); }
+  .news-card:focus-visible { outline: 2px solid var(--color-black); outline-offset: 3px; }
+
+  .news-card__top, .news-card__bottom { display: flex; justify-content: space-between; align-items: center; gap: var(--space-xs); }
+  .news-card__top { margin-bottom: var(--space-sm); }
+  .news-card__category { color: var(--color-accent); }
+  .news-card__num, .news-card__date { color: var(--color-text-muted); }
+
+  .news-card__media {
+    position: relative; display: block; overflow: hidden;
+    height: var(--news-card-image-height); border-radius: var(--radius-card);
+  }
+  .news-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--ease); }
+  .news-card__media:hover img { transform: scale(1.06); } /* лише при наведенні на саме фото */
+
+  /* «6 min. read»: напівпрозоре скло поверх фото */
+  .news-card__time {
+    position: absolute; top: var(--space-sm); left: var(--space-sm);
+    padding: var(--space-s) var(--news-time-pad-x); border-radius: var(--radius-btn);
+    background: var(--color-time-glass);
+    -webkit-backdrop-filter: blur(var(--news-time-blur)); backdrop-filter: blur(var(--news-time-blur));
+    color: var(--color-bg); font-size: var(--small-size); line-height: var(--h4-lh);
+  }
+
+  .news-card__name { margin-top: var(--space-l); font-size: var(--h3-size); line-height: var(--h3-lh); font-weight: var(--weight-medium); text-wrap: wrap; }
+  /* Тексти карток підібрані під цю ширину: 2 рівні рядки */
+  .news-card__text { max-width: var(--news-text-width); margin: var(--space-sm) 0 var(--space-l); text-wrap: wrap; }
+
+  .news-card__bottom {
+    margin: auto calc(var(--space-sm) * -1) 0; padding: var(--space-sm) var(--space-sm) 0;
+    border-top: 1px dashed var(--color-text-muted);
+  }
+  .news-card__more { display: inline-flex; align-items: center; gap: var(--space-xs); }
+  .news-card__more svg { width: var(--icon-s); height: var(--icon-s); color: var(--color-accent); transition: transform var(--duration) var(--ease); }
+  .news-card:hover .news-card__more svg { transform: translate(2px, -2px); }
+
+  /* Мобільні (Figma: mobile, 8 section): фото 227, назва 20, текст 14 */
+  @media (max-width: 900px) {
+    .news-card { font-size: var(--caption-size); }
+    .news-card__media { height: var(--news-image-mobile-height); }
+    .news-card__time { padding: var(--space-xs) var(--space-s); font-size: var(--caption-size); }
+    .news-card__name { margin-top: var(--space-sm); }
+    .news-card__text { max-width: none; margin: var(--space-sm) 0 var(--space-sm); }
+  }
+</style>

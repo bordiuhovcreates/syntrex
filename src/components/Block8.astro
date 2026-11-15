@@ -1,0 +1,48 @@
+---
+// Блок 8 — новини (Figma: Block 08). Картки — 4 найсвіжіші статті з src/content/news.
+import home from '../content/home.json';
+import { url } from '../lib/url';
+import { getNews } from '../lib/news';
+import NewsCard from './NewsCard.astro';
+import ArrowLink from './ArrowLink.astro';
+const { news } = home;
+const posts = (await getNews()).slice(0, 4);
+---
+<section class="block8" id="block-8">
+  <div class="block8__head">
+    <div>
+      <p class="block8__label" data-anim="fade-up">{news.label}</p>
+      <h2 class="block8__title" data-anim="fade-up">{news.title}</h2>
+    </div>
+    <div class="block8__all" data-anim="fade-up"><ArrowLink href={url('news/')} label={news.allButton} /></div>
+  </div>
+
+  <ul class="block8__list" role="list" data-anim="stagger">
+    {posts.map((post, i) => <li><NewsCard post={post} index={i} /></li>)}
+  </ul>
+</section>
+
+<style>
+  .block8 {
+    padding: var(--block-gap-l) var(--gutter) 0;
+    font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium);
+  }
+  .block8__head { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-sm); }
+  /* Низ кнопки — рівно по базовій лінії заголовка (по низу літер) */
+  .block8__all { margin-bottom: var(--h2-descent); }
+  .block8__label { color: var(--color-accent); }
+  .block8__title {
+    margin-top: var(--space-m);
+    font-size: var(--h2-size); line-height: var(--h2-lh); font-weight: var(--weight-regular);
+  }
+  .block8__list { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-sm); margin-top: var(--space-xl); }
+
+  /* Мобільні й планшет (Figma: mobile, 8 section): заголовок 40, картки одна під одною з проміжком 10, кнопка «All news» внизу */
+  @media (max-width: 900px) {
+    .block8 { display: flex; flex-direction: column; padding: var(--space-xl) var(--gutter) 0; }
+    .block8__head { display: contents; }
+    .block8__title { margin-top: var(--space-sm); }
+    .block8__list { grid-template-columns: 1fr; gap: var(--space-xs); margin-top: var(--space-50); }
+    .block8__all { order: 1; margin: var(--space-l) 0 0; }
+  }
+</style>

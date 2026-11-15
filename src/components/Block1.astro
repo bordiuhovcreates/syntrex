@@ -1,0 +1,177 @@
+---
+// Блок 1 — перший екран (Figma: Block 01). Меню з цього фрейму — у Header.astro.
+import home from '../content/home.json';
+import { url } from '../lib/url';
+import RollText from './RollText.astro';
+const { hero } = home;
+const { news } = hero;
+---
+<section class="block1" id="block-1">
+  {hero.image && (
+    <div class="block1__container" aria-hidden="true" data-anim="hang">
+      <div class="block1__sway">
+        <div class="block1__cables" data-hang-cables></div>
+        <img class="block1__image" src={url(hero.image)} alt="" width="1920" height="1080" fetchpriority="high" />
+      </div>
+    </div>
+  )}
+
+  <div class="block1__text">
+    <h1 class="block1__title" data-anim="fade-up">
+      <span>{hero.titleStart}</span>
+      <span class="block1__accent">{hero.titleAccent}</span>
+      <span>{hero.titleEnd}</span>
+    </h1>
+    <p class="block1__subtitle" data-anim="fade-up">{hero.subtitle}</p>
+  </div>
+
+  <div class="block1__bottom">
+    <a class="block1__more" href={url(hero.buttonLink)} data-anim="fade-up">
+      <span class="block1__more-text"><RollText text={hero.button} /></span>
+      <span class="block1__more-icon" aria-hidden="true">
+        <svg viewBox="0 0 25 25" fill="currentColor"><path d="M16.85 13.54H4.17v-2.08h12.68L11.02 5.63l1.48-1.46 8.33 8.33-8.33 8.33-1.48-1.46 5.83-5.83Z" /></svg>
+      </span>
+    </a>
+
+    <a class="block1__news" href={url(news.link)} data-anim="fade-up">
+      {news.image && (
+        <span class="block1__news-media"><img class="block1__news-image" src={url(news.image)} alt="" width="150" height="150" /></span>
+      )}
+      <span class="block1__news-body">
+        <span class="block1__news-head">
+          <span>{news.label}</span>
+          <svg class="block1__news-arrow" viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M4 11.25l-.88-.87 6-6H3.75V3.13h7.5v7.5H10V5.25l-6 6Z" /></svg>
+        </span>
+        <span class="block1__news-info">
+          <span>{news.title}</span>
+          <span class="block1__news-text">{news.text}</span>
+        </span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .block1 {
+    position: relative; display: flex; flex-direction: column; height: 100svh;
+    padding: calc(var(--space-l) * 2 + var(--control-height)) var(--gutter) var(--space-l);
+    isolation: isolate; overflow-x: clip;
+    /* Вгору троси йдуть за край екрана; при скролі контейнер опускається нижче секції
+       і обрізається над текстом блоку 2 (на --hero-cut вище за нього) */
+    clip-path: inset(-300vh 0 calc(var(--hero-cut) - var(--block-gap)) 0);
+  }
+
+  /* Контейнер з макета лежить над заголовком, як у Figma. Картинка 16:9 висить від верхнього краю,
+     тож трос ніколи не відривається. При завантаженні падає згори і зупиняється з малими відскоками вгору */
+  .block1__container {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    display: flex; justify-content: center; align-items: flex-start;
+    animation: block1-drop var(--drop-duration) var(--ease-drop) var(--drop-delay) both;
+    scroll-margin-top: var(--hero-cut); /* звідси animations.js бере лінію зрізу */
+  }
+  .block1__sway {
+    position: relative; width: min(100%, calc(100svh * 16 / 9)); aspect-ratio: 16 / 9;
+    transition: opacity var(--fade-duration) var(--ease-soft);
+  }
+  .block1__container.is-gone .block1__sway { opacity: 0; }
+  /* Власні троси картинки (верхні 20%) зрізані; замість них — один суцільний трос від верху екрана
+     до блока (рядок пікселів картинки, розтягнутий, з animations.js), тому немає шва */
+  .block1__image { display: block; width: 100%; height: 100%; clip-path: inset(20% 0 0 0); }
+  .block1__cables {
+    position: absolute; left: 0; bottom: 75%; width: 100%; height: 300vh; /* заходить на 5% під картинку — без щілини на стику */
+    background: 0 0 / 100% 100% no-repeat;
+  }
+  @keyframes block1-drop {
+    0%   { transform: translateY(-100%); }
+    60%  { transform: translateY(0); }
+    75%  { transform: translateY(-2.5%); }
+    88%  { transform: translateY(0); }
+    94%  { transform: translateY(-0.6%); }
+    100% { transform: translateY(0); }
+  }
+
+  .block1__title {
+    font-size: var(--h1-size); line-height: var(--h1-lh); font-weight: var(--weight-regular);
+  }
+  .block1__title span { display: block; }
+  .block1__title .block1__accent { color: var(--color-accent); }
+  .block1__subtitle {
+    max-width: var(--hero-text-width); margin-top: var(--space-m);
+    font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium);
+  }
+
+  .block1__bottom {
+    position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end;
+    gap: var(--space-m); margin-top: auto; padding-top: var(--space-l);
+  }
+
+  /* Кнопка Read More */
+  .block1__more { display: flex; gap: var(--space-xxs); font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium); }
+  .block1__more-text {
+    display: flex; align-items: center; justify-content: center;
+    width: var(--more-width); height: var(--control-height);
+    border: 1px dashed var(--color-text-muted); border-radius: var(--radius-btn);
+    transition: background-color var(--hover-duration) var(--ease-soft), border-color var(--hover-duration) var(--ease-soft), color var(--hover-duration) var(--ease-soft);
+  }
+  .block1__more-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: var(--control-height); height: var(--control-height);
+    border-radius: var(--radius-btn); background: var(--color-accent); color: var(--color-bg); overflow: hidden;
+  }
+  .block1__more-icon svg { width: var(--icon-m); height: var(--icon-m); transition: transform var(--duration) var(--ease); }
+  .block1__more:hover .block1__more-text { background: var(--color-black); border-color: var(--color-black); color: var(--color-bg); }
+  .block1__more:hover .block1__more-icon svg { animation: arrow-out var(--hover-duration) var(--ease-out); }
+
+  /* Картка новини */
+  .block1__news {
+    display: grid; grid-template-columns: var(--news-image-size) 1fr; gap: var(--space-s);
+    width: var(--news-card-width); padding: var(--space-s);
+    border-radius: var(--radius-card); background: var(--color-bg-gray);
+    font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium);
+  }
+  /* Фото в рамці: при наведенні на картку плавно збільшується всередині неї */
+  .block1__news-media {
+    display: block; width: var(--news-image-size); height: var(--news-image-size);
+    border-radius: var(--radius-card); overflow: hidden;
+  }
+  .block1__news-image {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+    transition: transform var(--hover-duration) var(--ease);
+  }
+  .block1__news-media:hover .block1__news-image { transform: scale(1.08); } /* лише при наведенні на саме фото */
+  .block1__news-body { display: flex; flex-direction: column; justify-content: space-between; }
+  .block1__news-head { display: flex; justify-content: space-between; gap: var(--space-xs); }
+  .block1__news-arrow { flex: none; width: var(--icon-s); height: var(--icon-s); color: var(--color-black); }
+  /* Стрілка ↗ вилітає по діагоналі вгору-вправо і повертається знизу-зліва */
+  .block1__news:hover .block1__news-arrow { animation: block1-arrow-diag var(--hover-duration) var(--ease-out); }
+  @keyframes block1-arrow-diag {
+    0%   { transform: translate(0, 0); opacity: 1; }
+    35%  { transform: translate(var(--icon-s), calc(var(--icon-s) * -1)); opacity: 0; }
+    36%  { transform: translate(calc(var(--icon-s) * -1), var(--icon-s)); opacity: 0; }
+    100% { transform: translate(0, 0); opacity: 1; }
+  }
+  .block1__news-info { display: flex; flex-direction: column; gap: var(--space-xs); }
+  .block1__news-text { font-size: var(--small-size); line-height: var(--small-lh); color: var(--color-text-muted); }
+
+  .block1 a:focus-visible { outline: 2px solid var(--color-black); outline-offset: 3px; border-radius: var(--radius-btn); }
+
+  /* Мобільні й планшет (Figma: 1 section, 390 px): контейнер зверху ширший за екран,
+     під ним заголовок 60 px, опис, кнопка на всю ширину. Картки новини в мобільному макеті немає */
+  @media (max-width: 900px) {
+    .block1 { display: block; height: auto; padding: 0 var(--gutter); clip-path: inset(-300vh 0 0 0); }
+    /* На мобільному контейнер лише опускається при завантаженні, без руху при скролі */
+    .block1__container {
+      position: relative; inset: auto; display: block; left: 50%;
+      width: var(--hero-image-mobile);
+      margin-top: calc(var(--hero-image-mobile) * -0.0688); /* у макеті фото заходить на 46 px вище краю */
+      margin-left: calc(var(--hero-image-mobile) / -2);
+    }
+    .block1__sway { width: 100%; }
+    .block1__text { position: relative; z-index: 2; margin-top: var(--space-xs); }
+    .block1__subtitle { max-width: var(--hero-text-mobile-width); font-size: var(--caption-size); }
+    .block1__bottom { display: block; margin-top: var(--space-m); padding-top: 0; }
+    .block1__news { display: none; }
+    .block1__more-text { flex: 1; width: auto; height: var(--input-height); }
+    .block1__more-icon { width: var(--input-height); height: var(--input-height); }
+  }
+</style>

@@ -1,0 +1,179 @@
+---
+// Футер (Figma: Block 09). Тексти й посилання — у settings.json (footer, contacts, header).
+import settings from '../content/settings.json';
+import { url, navHref } from '../lib/url';
+import LeadForm from './LeadForm.astro';
+const { header, contacts, footer } = settings;
+const href = (h: string) => navHref(h, Astro.url.pathname);
+const year = new Date().getFullYear();
+const sitemap = [...header.navLeft, ...header.navRight];
+const arrow = 'M16.85 13.54H4.17v-2.08h12.68L11.02 5.63l1.48-1.46 8.33 8.33-8.33 8.33-1.48-1.46 5.83-5.83Z';
+---
+<footer class="footer">
+  <div class="footer__main">
+    <a href={url('/')} class="footer__logo" aria-label={header.logo}>
+      <img src={url(header.logoImage)} alt={header.logo} width="60" height="70" loading="lazy" />
+    </a>
+    <!-- На мобільних копірайт стоїть угорі, поруч із логотипом (Figma: mobile, 9 section) -->
+    <span class="footer__muted footer__copy-top">{year} © {header.logo}</span>
+
+    <nav class="footer__col" aria-label={footer.sitemapTitle}>
+      <p class="footer__title">{footer.sitemapTitle}</p>
+      <ul class="footer__list" role="list">
+        {sitemap.map((l) => <li><a href={href(l.href)}>{l.label}</a></li>)}
+        <li><a href={href('#block-7')}>{header.button}</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer__col">
+      <p class="footer__title">{footer.contactsTitle}</p>
+      <ul class="footer__list" role="list">
+        <li><a href={`tel:${contacts.phone.replace(/\s/g, '')}`}>{contacts.phone}</a></li>
+        <li><a href={`mailto:${contacts.email}`}>{contacts.email}</a></li>
+      </ul>
+    </div>
+
+    <ul class="footer__social" role="list">
+      {footer.socials.map((s) => (
+        <li>
+          <a href={s.url} target="_blank" rel="noopener" aria-label={s.name}>
+            <img src={url(s.icon)} alt="" width="25" height="25" loading="lazy" />
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="footer__col footer__col--office">
+      <p class="footer__title">{footer.officeTitle}</p>
+      <p class="footer__address">
+        <a class="footer__map" data-underline-last href={contacts.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contacts.address)}`} target="_blank" rel="noopener">{contacts.address}</a>
+      </p>
+    </div>
+
+    <div class="footer__col footer__col--mail">
+      <p>{footer.newsletter.title}</p>
+      <LeadForm variant="newsletter" service="Newsletter" texts={footer.newsletter} />
+    </div>
+
+    <a href="#top" class="footer__up" aria-label={footer.upLabel}>
+      <svg viewBox="0 0 25 25" fill="currentColor" aria-hidden="true"><path d={arrow} /></svg>
+    </a>
+  </div>
+
+  <div class="footer__bottom">
+    <span class="footer__muted">{year} © {header.logo}</span>
+    <span class="footer__legal">
+      {footer.legal.map((l) => <a href={url(l.href)}>{l.label}</a>)}
+    </span>
+    <span class="footer__muted">{footer.rights}</span>
+    <a class="footer__credit" href={footer.credit.url} target="_blank" rel="noopener">{footer.credit.label}</a>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative; margin-top: var(--block-gap-l);
+    border-top: 1px dashed var(--color-text-muted);
+    font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium);
+  }
+  /* Вертикальна пунктирна лінія між першою і другою колонками — на всю висоту футера */
+  .footer::before {
+    content: ''; position: absolute; top: 0; bottom: 0;
+    left: calc(var(--gutter) + (100% - 2 * var(--gutter) - 3 * var(--space-sm)) / 4);
+    border-left: 1px dashed var(--color-text-muted);
+  }
+
+  /* Сітка з 4 колонок, як у всіх блоках */
+  .footer__main {
+    display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: auto 1fr;
+    column-gap: var(--space-sm); row-gap: var(--space-70);
+    height: var(--footer-main-height); padding: var(--space-m) var(--gutter) 0;
+  }
+  .footer__logo { grid-column: 1; grid-row: 1; align-self: start; width: var(--logo-width); }
+  .footer__copy-top { display: none; }
+  .footer__logo img { width: 100%; height: auto; }
+
+  .footer__col { display: flex; flex-direction: column; gap: var(--space-sm); align-items: flex-start; }
+  .footer__col--office { grid-column: 2; grid-row: 2; }
+  .footer__col--mail { grid-column: 3 / 5; grid-row: 2; }
+  .footer__title, .footer__muted { color: var(--color-text-muted); }
+  .footer__list { display: flex; flex-direction: column; gap: var(--space-xs); align-items: flex-start; }
+  .footer__list a, .footer__list button, .footer__legal a, .footer__credit { transition: color var(--duration) var(--ease); }
+  .footer__list a:hover, .footer__list button:hover, .footer__legal a:hover, .footer__credit:hover, .footer__map:hover { color: var(--color-accent); }
+  /* Полоска під посиланням (як на hawk-style.com): при наведенні плавно виїжджає зліва направо,
+     коли курсор іде — так само плавно їде далі вправо і зникає. Колір — колір тексту.
+     В адресі на кілька рядків полоска пробігає під рядками по черзі */
+  .footer__list a, .footer__legal a, .footer__credit, .footer__map {
+    background: linear-gradient(currentColor, currentColor) 100% 100% / 0 1px no-repeat;
+    padding-bottom: 0.12em; margin-bottom: -0.12em;
+    transition: color var(--duration) var(--ease), background-size var(--underline-duration) var(--ease-slide);
+  }
+  .footer__list a:hover, .footer__legal a:hover, .footer__credit:hover, .footer__map:hover,
+  .footer__list a:focus-visible, .footer__legal a:focus-visible, .footer__credit:focus-visible, .footer__map:focus-visible {
+    background-position: 0 100%; background-size: 100% 1px;
+  }
+  /* Адреса на кілька рядків: полоска лише під останнім рядком. Фон рядків малюється як одна
+     довга смуга, тож полоска починається з --line-start (сума ширин попередніх рядків) і має
+     ширину останнього рядка --line-width; обидва значення рахує interactive.js */
+  .footer__map:hover, .footer__map:focus-visible {
+    background-position: var(--line-start, 0) 100%; background-size: var(--line-width, 100%) 1px;
+  }
+  .footer__address { max-width: var(--footer-address-width); }
+
+  .footer__social { grid-column: 4; grid-row: 1; justify-self: end; display: flex; gap: var(--space-xs); }
+  .footer__social a, .footer__up {
+    display: flex; align-items: center; justify-content: center;
+    width: var(--input-height); height: var(--input-height); border-radius: var(--radius-btn);
+  }
+  .footer__social a { background: var(--color-accent); transition: background-color var(--duration) var(--ease); }
+  .footer__social a:hover { background: var(--color-black); }
+  .footer__social img { width: var(--icon-m); height: var(--icon-m); }
+
+  /* Кнопка «нагору» — на рівні поля підписки, праворуч */
+  .footer__up {
+    grid-column: 4; grid-row: 2; justify-self: end; align-self: start;
+    margin-top: calc(var(--h4-size) * var(--h4-lh) + var(--space-sm));
+    border: 1px dashed var(--color-text-muted); color: var(--color-black);
+    transition: background-color var(--duration) var(--ease), border-color var(--duration) var(--ease), color var(--duration) var(--ease);
+  }
+  .footer__up svg { width: var(--icon-m); height: var(--icon-m); transform: rotate(-90deg); }
+  .footer__up:hover { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-bg); }
+  .footer a:focus-visible, .footer button:focus-visible { outline: 2px solid var(--color-black); outline-offset: 3px; }
+
+  /* Нижній рядок */
+  .footer__bottom {
+    display: grid; grid-template-columns: repeat(4, 1fr); column-gap: var(--space-sm);
+    padding: var(--space-m) var(--gutter); border-top: 1px dashed var(--color-text-muted);
+  }
+  .footer__legal { display: flex; gap: var(--footer-legal-gap); }
+  .footer__credit { justify-self: end; }
+
+  /* Мобільні й планшет (Figma: mobile, 9 section): дві колонки, текст 14, копірайт угорі праворуч */
+  @media (max-width: 900px) {
+    .footer { margin-top: var(--space-xl); font-size: var(--caption-size); line-height: 1; }
+    .footer::before { display: none; }
+    .footer__main {
+      grid-template-columns: 1fr 1fr; grid-template-rows: none; gap: 0 var(--space-xs);
+      height: auto; padding: var(--space-sm) var(--gutter) var(--space-50);
+    }
+    .footer__logo { grid-column: 1; grid-row: 1; }
+    .footer__copy-top { display: block; grid-column: 2; grid-row: 1; }
+    .footer__col { gap: var(--space-sm); }
+    .footer__list { gap: var(--space-xs); }
+    nav.footer__col { grid-column: 1; grid-row: 2 / 4; margin-top: var(--space-l); }
+    .footer__main > .footer__col:not(nav):not(.footer__col--office):not(.footer__col--mail) { grid-column: 2; grid-row: 2; margin-top: var(--space-l); }
+    .footer__col--office { grid-column: 2; grid-row: 3; margin-top: var(--space-sm); }
+    .footer__col--mail { grid-column: 1 / -1; grid-row: 4; margin-top: var(--space-50); }
+    .footer__social { grid-column: 1; grid-row: 5; justify-self: start; margin-top: var(--space-xl); }
+    .footer__up { grid-column: 2; grid-row: 5; margin-top: var(--space-xl); }
+    .footer__social a, .footer__up { width: var(--field-mobile-height); height: var(--field-mobile-height); }
+    .footer__social img, .footer__up svg { width: var(--icon-social-mobile); height: var(--icon-social-mobile); }
+    .footer__address { max-width: var(--menu-address-width); }
+
+    .footer__bottom { grid-template-columns: 1fr 1fr; gap: var(--space-xs); padding: var(--space-sm) var(--gutter); }
+    .footer__bottom > .footer__muted:first-child { display: none; }
+    .footer__legal { grid-column: 1; grid-row: 1 / 3; flex-direction: column; gap: var(--space-xs); }
+    .footer__bottom > .footer__muted:nth-child(3) { grid-column: 2; grid-row: 1; }
+    .footer__credit { grid-column: 2; grid-row: 2; justify-self: start; }
+  }
+</style>

@@ -1,0 +1,154 @@
+---
+// Шапка з меню; на мобільних — кнопка Menu. Посилання меню ведуть до блоків за їх id.
+import settings from '../content/settings.json';
+import { url, navHref } from '../lib/url';
+import RollText from './RollText.astro';
+
+const { header } = settings;
+const href = (h: string) => navHref(h, Astro.url.pathname);
+---
+<header class="header">
+  <div class="container header__inner">
+    <a href={url('/')} class="header__logo" aria-label={header.logo}>
+      <img src={url(header.logoImage)} alt={header.logo} width="60" height="70" />
+    </a>
+
+    <nav class="header__nav" data-nav aria-label="Головне меню">
+      <ul class="header__list" role="list">
+        {header.navLeft.map((l) => <li><a class="header__item" href={href(l.href)}><RollText text={l.label} /></a></li>)}
+      </ul>
+      <ul class="header__list header__list--right" role="list">
+        {header.navRight.map((l) => <li><a class="header__item" href={href(l.href)}><RollText text={l.label} /></a></li>)}
+      </ul>
+      <!-- Лише в мобільному меню (Figma: mobile form): кнопка до форми і контакти -->
+      <a href={href('#block-7')} class="header__cta">
+        <span class="header__cta-text"><RollText text={header.menuButton} /></span>
+        <span class="header__cta-icon" aria-hidden="true">
+          <svg viewBox="0 0 25 25" fill="currentColor"><path d="M16.85 13.54H4.17v-2.08h12.68L11.02 5.63l1.48-1.46 8.33 8.33-8.33 8.33-1.48-1.46 5.83-5.83Z" /></svg>
+        </span>
+      </a>
+      <div class="header__contacts">
+        <div>
+          <p class="header__contacts-title">{settings.footer.contactsTitle}</p>
+          <a href={`tel:${settings.contacts.phone.replace(/\s/g, '')}`}>{settings.contacts.phone}</a>
+          <a href={`mailto:${settings.contacts.email}`}>{settings.contacts.email}</a>
+        </div>
+        <div>
+          <p class="header__contacts-title">{settings.footer.officeTitle}</p>
+          <p class="header__contacts-address">{settings.contacts.address}</p>
+        </div>
+      </div>
+    </nav>
+
+    <a href={href('#block-7')} class="header__btn header__item header__item--accent"><RollText text={header.button} /></a>
+
+    <button class="header__burger" data-burger aria-expanded="false">
+      <span class="header__burger-open">{header.menu}</span>
+      <span class="header__burger-close">{header.close}</span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .header { position: sticky; top: 0; z-index: 50; background: var(--color-bg); border-bottom: 1px solid var(--color-border); }
+  .header__inner { display: flex; align-items: center; gap: var(--space-4); height: var(--header-height); }
+  .header__logo img { width: var(--logo-width); height: auto; }
+  .header__nav { display: flex; align-items: center; gap: var(--space-4); margin-left: auto; }
+  .header__nav ul { display: flex; gap: var(--space-3); }
+  .header__nav a:hover { color: var(--color-text-muted); }
+  .header__burger { display: none; }
+
+  /* Десктоп: меню з макета поверх першого екрана */
+  @media (min-width: 901px) {
+    /* z-index: auto — щоб логотип міг лягти під контейнер з першого екрана */
+    .header { position: absolute; inset: 0 0 auto 0; z-index: auto; background: none; border-bottom: 0; }
+    .header__inner {
+      position: relative; max-width: none; height: auto; gap: var(--space-xs);
+      padding-top: var(--space-l);
+    }
+    .header__logo { position: absolute; z-index: 0; top: var(--space-l); left: 50%; transform: translateX(-50%); }
+    .header__logo img { height: var(--control-height); }
+    .header__nav { display: contents; }
+    .header__nav ul.header__list { gap: var(--space-xs); }
+    .header__list--right { margin-left: auto; }
+    .header__cta, .header__contacts { display: none; }
+
+    .header__item {
+      position: relative; z-index: 2; display: flex; align-items: flex-end;
+      width: var(--nav-item-width); height: var(--control-height); padding: var(--space-xs);
+      border: 1px dashed var(--color-text-muted); border-radius: var(--radius-btn);
+      font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium);
+      transition: border-color var(--duration) var(--ease), background-color var(--duration) var(--ease), color var(--duration) var(--ease);
+    }
+    .header__item::after {
+      content: ''; position: absolute; top: var(--space-xs); right: var(--space-xs);
+      width: var(--dot-size); height: var(--dot-size); border-radius: 50%; background: var(--color-accent);
+      transition: transform var(--roll-duration) var(--ease), background-color var(--duration) var(--ease);
+    }
+    /* Наведення: пунктир зникає, пункт заливається помаранчевим, текст і крапка білі;
+       крапка збільшується, текст «прокручується» вгору (RollText) */
+    .header__nav a.header__item:hover { color: var(--color-bg); background: var(--color-accent); border-color: var(--color-accent); }
+    .header__nav a.header__item:hover::after { background: var(--color-bg); transform: scale(1.5); }
+    .header__item--accent { width: var(--quote-width); border: 0; background: var(--color-accent); color: var(--color-bg); text-align: left; }
+    .header__item--accent::after { background: var(--color-bg); }
+    .header__item--accent:hover { background: var(--color-black); }
+    .header__item--accent:hover::after { transform: scale(1.5); } /* крапка збільшується, як у пунктах меню */
+    .header__item:focus-visible { outline: 2px solid var(--color-black); outline-offset: 3px; }
+  }
+
+  /* Мобільні й планшет (Figma: 1 section, 390 px): логотип зліва, пунктирна кнопка Menu справа, поверх фото */
+  @media (max-width: 900px) {
+    .header { position: absolute; inset: 0 0 auto 0; background: none; border-bottom: 0; }
+    .header__inner { align-items: flex-start; height: auto; padding-top: var(--space-sm); }
+    .header__btn { display: none; }
+    .header__burger {
+      position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; margin-left: auto;
+      width: var(--menu-btn-width); height: var(--menu-btn-height);
+      border: 1px dashed var(--color-text-muted); border-radius: var(--radius-xs);
+      font-size: var(--caption-size); line-height: 1; font-weight: var(--weight-regular);
+      transition: border-color var(--duration) var(--ease);
+    }
+    .header__burger-close { display: none; }
+    :global(body.nav-open) .header__burger-open { display: none; }
+    :global(body.nav-open) .header__burger-close { display: inline; }
+    :global(body.nav-open) .header__burger { border-color: var(--color-on-accent-line); color: var(--color-black); }
+
+    /* Мобільне меню (Figma: mobile form): помаранчевий екран, посилання 40 px, чорна кнопка, контакти внизу */
+    .header__nav {
+      position: fixed; inset: 0; z-index: 1; display: flex; flex-direction: column; align-items: stretch; gap: 0; margin: 0;
+      padding: var(--space-sm) var(--gutter); background: var(--color-accent); color: var(--color-black);
+      opacity: 0; visibility: hidden; transition: opacity var(--duration) var(--ease), visibility var(--duration);
+      overflow-y: auto;
+    }
+    :global(body.nav-open) .header__nav { opacity: 1; visibility: visible; }
+    :global(body.nav-open) { overflow: hidden; }
+
+    .header__nav ul.header__list { display: flex; flex-direction: column; gap: var(--space-xs); }
+    .header__list + .header__list { margin-top: var(--space-xs); }
+    .header__nav .header__item { display: block; font-size: var(--menu-link-size); line-height: 1; font-weight: var(--weight-regular); }
+    .header__nav a.header__item:hover { color: var(--color-bg); }
+    /* у мобільному меню текст не прокручується */
+    .header__nav :global(.roll__text--clone) { display: none; }
+    .header__nav :global(.roll__text:not(.roll__text--clone)) { transform: none; }
+
+    .header__cta { display: flex; gap: var(--space-xxs); margin-top: var(--space-l); font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium); }
+    .header__cta-text {
+      flex: 1; display: flex; align-items: center; justify-content: center; height: var(--input-height);
+      border-radius: var(--radius-btn); background: var(--color-black); color: var(--color-bg);
+    }
+    .header__cta-icon {
+      display: flex; align-items: center; justify-content: center; width: var(--input-height); height: var(--input-height);
+      border-radius: var(--radius-btn); background: var(--color-bg); color: var(--color-black); overflow: hidden;
+    }
+    .header__cta-icon svg { width: var(--icon-m); height: var(--icon-m); }
+    .header__cta:hover .header__cta-icon svg { animation: arrow-out var(--hover-duration) var(--ease-out); }
+
+    .header__contacts {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xs); margin-top: auto; padding-top: var(--space-l);
+      font-size: var(--caption-size); line-height: 1;
+    }
+    .header__contacts div { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-xs); }
+    .header__contacts-title { margin-bottom: var(--space-xs); color: var(--color-on-accent-muted); }
+    .header__contacts-address { max-width: var(--menu-address-width); }
+  }
+</style>

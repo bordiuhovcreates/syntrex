@@ -1,0 +1,8 @@
+---
+// Текст, що «прокручується» при наведенні на кнопку чи посилання, в якому стоїть:
+// напис їде вгору, а знизу на його місце виїжджає така сама копія (кольору тексту кнопки).
+// Стилі — у global.css (.roll), спрацьовує при наведенні на найближчий a або button.
+interface Props { text: string }
+const { text } = Astro.props;
+---
+<span class="roll"><span class="roll__text">{text}</span><span class="roll__text roll__text--clone" aria-hidden="true">{text}</span></span>

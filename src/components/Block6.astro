@@ -1,0 +1,132 @@
+---
+// Блок 6 — етапи доставки (Figma: Block 06).
+import home from '../content/home.json';
+import RollText from './RollText.astro';
+const { process } = home;
+---
+<section class="block6" id="block-6">
+  <div class="block6__intro">
+    <p class="block6__label" data-anim="fade-up">{process.label}</p>
+    <h2 class="block6__title" data-anim="fade-up">{process.title}</h2>
+    <p class="block6__lead" data-anim="fade-up">{process.text}</p>
+
+    <a class="block6__more" href="#block-7" data-anim="fade-up">
+      <span class="block6__more-text"><RollText text={process.button} /></span>
+      <span class="block6__more-icon" aria-hidden="true">
+        <svg viewBox="0 0 25 25" fill="currentColor"><path d="M16.85 13.54H4.17v-2.08h12.68L11.02 5.63l1.48-1.46 8.33 8.33-8.33 8.33-1.48-1.46 5.83-5.83Z" /></svg>
+      </span>
+    </a>
+  </div>
+
+  <ol class="block6__stages" role="list" style={`--n: ${process.stages.length}`}>
+    {process.stages.map((s, i) => (
+      <li class="block6__stage" data-anim="fade-up" style={`--i: ${i}`}>
+        <span class="block6__stage-head">{s.label}</span>
+        <span class="block6__stage-body">
+          <h3 class="block6__stage-title">{s.title}</h3>
+          <p class="block6__stage-text">{s.text}</p>
+        </span>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .block6 {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-sm);
+    padding: var(--block-gap-l) var(--gutter) 0;
+    font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium);
+  }
+
+  /* Ліва частина: заголовок зверху, кнопка внизу. Липка: стоїть на місці, поки гортаються етапи */
+  .block6__intro {
+    grid-column: 1 / 3; display: flex; flex-direction: column; align-items: flex-start;
+    position: sticky; top: var(--process-top); align-self: start;
+    height: calc(100svh - var(--process-top) * 2);
+  }
+  .block6__label { color: var(--color-accent); }
+  .block6__title {
+    max-width: var(--process-title-width); margin-top: var(--space-m);
+    font-size: var(--h2-size); line-height: var(--h2-lh); font-weight: var(--weight-regular);
+    text-wrap: wrap;
+  }
+  .block6__lead { max-width: var(--process-text-width); margin-top: var(--space-m); text-wrap: wrap; }
+
+  .block6__more { display: flex; gap: var(--space-xxs); margin-top: auto; }
+  .block6__more-text {
+    display: flex; align-items: center; justify-content: center;
+    width: var(--more-width); height: var(--control-height);
+    border: 1px dashed var(--color-text-muted); border-radius: var(--radius-btn);
+    transition: background-color var(--hover-duration) var(--ease-soft), border-color var(--hover-duration) var(--ease-soft), color var(--hover-duration) var(--ease-soft);
+  }
+  .block6__more-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: var(--control-height); height: var(--control-height);
+    border-radius: var(--radius-btn); background: var(--color-accent); color: var(--color-bg); overflow: hidden;
+  }
+  .block6__more-icon svg { width: var(--icon-m); height: var(--icon-m); transition: transform var(--duration) var(--ease); }
+  .block6__more:hover .block6__more-text { background: var(--color-black); border-color: var(--color-black); color: var(--color-bg); }
+  .block6__more:hover .block6__more-icon svg { animation: arrow-out var(--hover-duration) var(--ease-out); }
+  .block6__more:focus-visible { outline: 2px solid var(--color-black); outline-offset: 3px; }
+
+  /* Праві дві колонки: картки етапів.
+     Каталог-драбинка: кожна картка липне на --stage-tab нижче за попередню (рівно висота її шапки),
+     тож при скролі картки лягають одна на одну, а від попередніх видно шапку з назвою етапу */
+  .block6__stages {
+    grid-column: 3 / 5; display: grid; gap: var(--space-sm);
+    --stage-tab: calc(var(--space-sm) * 2 + var(--h4-size) * var(--h4-lh) + 1px); /* шапка: відступи + рядок + лінія */
+  }
+  .block6__stage {
+    position: sticky; top: calc(var(--process-top) + var(--i) * var(--stage-tab));
+    display: flex; flex-direction: column; height: var(--stage-height);
+    border-radius: var(--radius-card); background: var(--color-bg-gray);
+    /* Запас знизу (компенсований від'ємним відступом наступної картки): усі картки відпускаються
+       разом саме тоді, коли остання стала на своє місце, — і вона не наїжджає на шапку попередньої */
+    margin-bottom: calc((var(--n) - 1 - var(--i)) * var(--stage-tab));
+  }
+  .block6__stage + .block6__stage { margin-top: calc((var(--n) - var(--i)) * var(--stage-tab) * -1); }
+  .block6__stage-head {
+    position: relative; padding: var(--space-sm);
+    border-bottom: 1px dashed var(--color-text-muted); color: var(--color-text-muted);
+    transition: border-color var(--hover-duration) var(--ease-soft);
+  }
+  .block6__stage-head::after {
+    content: ''; position: absolute; top: 50%; right: var(--space-sm); transform: translateY(-50%);
+    width: var(--stage-dot); height: var(--stage-dot); border-radius: 50%; background: var(--color-accent);
+    transition: transform var(--dot-duration) var(--ease);
+  }
+  /* Наведення: крапка збільшується (як у меню), лінія під шапкою темнішає */
+  .block6__stage:hover .block6__stage-head { border-color: var(--color-text); }
+  .block6__stage:hover .block6__stage-head::after,
+  .block6__stage:active .block6__stage-head::after { transform: translateY(-50%) scale(1.4); } /* :active — дотик на телефоні */
+
+  /* Планшети й мобільні (до 1023 px): ліва частина не липка — одна колонка: заголовок, текст і кнопка зверху,
+     під ними картки етапів, які так само лягають одна на одну драбинкою */
+  @media (max-width: 1023px) {
+    .block6 { grid-template-columns: 1fr; }
+    .block6__intro { grid-column: auto; position: static; height: auto; }
+    .block6__more { margin-top: var(--space-l); }
+    .block6__stages { grid-column: auto; margin-top: var(--space-50, var(--space-lg)); gap: var(--space-sm); }
+  }
+  .block6__stage-body { display: flex; flex-direction: column; justify-content: flex-end; flex: 1; padding: var(--space-sm); }
+  .block6__stage-title { font-size: var(--h3-size); line-height: var(--h3-lh); font-weight: var(--weight-medium); }
+  /* Тексти підібрані під цю ширину: 3 рівні рядки */
+  .block6__stage-text { max-width: var(--stage-text-width); margin-top: var(--space-sm); text-wrap: wrap; }
+
+  /* Мобільні (Figma: mobile, 6 section): заголовок, текст і кнопка, під ними етапи одна під одною */
+  @media (max-width: 900px) {
+    .block6 { display: flex; flex-direction: column; gap: 0; padding: var(--space-xl) var(--gutter) 0; }
+    .block6__intro { display: contents; }
+    .block6__title { margin-top: var(--space-sm); max-width: var(--process-title-mobile-width); }
+    .block6__lead { margin-top: var(--space-sm); max-width: var(--process-text-mobile-width); }
+    .block6__stages { margin-top: var(--space-50); }
+    .block6__more { width: 100%; margin-top: var(--space-l); }
+    .block6__more-text { flex: 1; width: auto; height: var(--input-height); }
+    .block6__more-icon { width: var(--input-height); height: var(--input-height); }
+    .block6__stage { height: auto; }
+    .block6__stages { --stage-tab: calc(var(--space-sm) * 2 + var(--caption-size) * var(--h4-lh) + 1px); }
+    .block6__stage-head { font-size: var(--caption-size); }
+    .block6__stage-body { padding-top: var(--space-50); }
+    .block6__stage-text { max-width: none; margin-top: var(--space-sm); font-size: var(--caption-size); }
+  }
+</style>

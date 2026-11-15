@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+---
+<Base title="Сторінку не знайдено" noindex>
+  <main class="not-found container">
+    <p class="t-display">404</p>
+    <h1 class="t-h3">Сторінку не знайдено</h1>
+    <a class="btn" href={url('/')}>На головну</a>
+  </main>
+</Base>
+
+<style>
+  .not-found { min-height: 100svh; display: grid; place-content: center; justify-items: center; gap: var(--space-3); text-align: center; }
+</style>

@@ -1,0 +1,124 @@
+---
+// Блок 7 — глобус і форма заявки (Figma: Block 07).
+// Глобус: src/scripts/globe.js (вантажиться через data-globe в interactive.js).
+// Форма: LeadForm.astro, variant="quote".
+import home from '../content/home.json';
+import settings from '../content/settings.json';
+import { url } from '../lib/url';
+import LeadForm from './LeadForm.astro';
+const { quote } = home;
+---
+<section class="block7" id="block-7">
+  <div
+    class="block7__globe" data-globe
+    data-hubs={JSON.stringify(quote.hubs)} data-logo={url(settings.header.logoImage)}
+  >
+    <p class="block7__lead">{quote.lead}</p>
+  </div>
+
+  <div class="block7__form">
+    <p class="block7__label" data-anim="fade-up">{quote.label}</p>
+    <h2 class="block7__title" data-anim="fade-up">{quote.title}</h2>
+    <div class="block7__fields">
+      <LeadForm variant="quote" service="Блок 7 — Request your freight quote" texts={quote.form} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .block7 {
+    scroll-margin-top: 0; /* кнопки Get Quote прокручують рівно до блоку: форма на весь екран */
+    display: grid; grid-template-columns: 970fr 950fr;
+    height: 100svh; margin-top: var(--block-gap-l);
+    font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium);
+    color: var(--color-bg);
+  }
+
+  /* ---------- Глобус ---------- */
+  .block7__globe {
+    position: relative; overflow: hidden; background: var(--color-space);
+    cursor: grab; touch-action: pan-y; user-select: none;
+  }
+  .block7__globe:global(.is-drag) { cursor: grabbing; }
+  .block7__lead {
+    position: absolute; z-index: 3; top: var(--space-l); left: var(--gutter);
+    max-width: var(--quote-lead-width); pointer-events: none;
+    font-size: var(--h3-size); line-height: var(--h3-lh); text-wrap: wrap;
+  }
+  .block7__globe :global(canvas) { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .block7__globe :global(.globe__stars) { pointer-events: none; }
+  .block7__globe :global(.globe__layer) { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+
+  /* Маркер локації: помаранчеве коло з логотипом + назва міста.
+     Позицію й прозорість задає globe.js; тут лише вигляд. Без backdrop-filter і box-shadow-анімацій —
+     вони перемальовуються щокадру і дають ривки. */
+  .block7__globe :global(.globe-pin) { position: absolute; left: 0; top: 0; width: 0; height: 0; will-change: transform, opacity; }
+  .block7__globe :global(.globe-pin:not(.is-in)),
+  .block7__globe :global(.globe-pin.is-back) { visibility: hidden; }
+  .block7__globe :global(.globe-pin__dot),
+  .block7__globe :global(.globe-pin__tag) { transition: opacity 0.45s var(--ease); }
+  .block7__globe :global(.globe-pin.is-hidden .globe-pin__dot),
+  .block7__globe :global(.globe-pin.is-hidden .globe-pin__tag) { opacity: 0; pointer-events: none; }
+
+  .block7__globe :global(.globe-pin__dot) {
+    position: absolute; left: calc(var(--globe-marker) / -2); top: calc(var(--globe-marker) / -2);
+    display: flex; align-items: center; justify-content: center;
+    width: var(--globe-marker); height: var(--globe-marker); border-radius: 50%;
+    background: var(--color-accent); pointer-events: auto; cursor: pointer;
+  }
+  /* м'яка пульсація: кільце, що розходиться (лише transform і opacity — без перемальовування) */
+  .block7__globe :global(.globe-pin__dot::after) {
+    content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--color-accent-glow);
+    animation: globe-ping 3s var(--ease) infinite; pointer-events: none;
+  }
+  .block7__globe :global(.globe-pin__dot img) { position: relative; z-index: 1; width: 46%; height: auto; filter: brightness(0) invert(1); }
+
+  .block7__globe :global(.globe-pin__tag) {
+    position: absolute; top: 0; left: calc(var(--globe-marker) / 2 + var(--globe-marker) * 0.2);
+    transform: translateY(-50%); pointer-events: none;
+  }
+  .block7__globe :global(.globe-pin.is-left .globe-pin__tag) { left: auto; right: calc(var(--globe-marker) / 2 + var(--globe-marker) * 0.2); }
+  .block7__globe :global(.globe-pin__label) {
+    display: flex; flex-direction: column; gap: var(--space-xxs); white-space: nowrap;
+    padding: var(--space-xs) var(--space-s); border-radius: var(--radius-btn);
+    background: var(--globe-tag-bg); box-shadow: inset 0 0 0 1px var(--glass-edge);
+    transition: background-color var(--duration) var(--ease);
+  }
+  .block7__globe :global(.globe-pin.is-left .globe-pin__label) { align-items: flex-end; }
+  .block7__globe :global(.globe-pin__city) { font-size: var(--h4-size); text-transform: uppercase; letter-spacing: 0.04em; }
+  .block7__globe :global(.globe-pin__country) { font-size: var(--small-size); color: var(--color-text-muted); }
+  .block7__globe :global(.globe-pin.is-hover .globe-pin__label) { background: var(--color-accent); }
+  .block7__globe :global(.globe-pin.is-hover .globe-pin__country) { color: var(--color-bg); }
+
+  @keyframes globe-ping {
+    0% { transform: scale(1); opacity: 0.9; }
+    70%, 100% { transform: scale(1.7); opacity: 0; }
+  }
+
+  /* ---------- Форма ---------- */
+  .block7__form {
+    display: flex; flex-direction: column; min-height: 0;
+    padding: var(--space-l); background: var(--color-accent);
+  }
+  .block7__title {
+    max-width: var(--quote-title-width); margin-top: var(--space-m);
+    font-size: var(--h2-size); line-height: var(--h2-lh); font-weight: var(--weight-regular);
+    text-wrap: wrap;
+  }
+  .block7__fields { flex: 1; min-height: 0; margin-top: var(--space-90); }
+
+  /* Мобільні й планшет (Figma: mobile, 7 section; порядок — як на попередній версії сайту):
+     зверху помаранчева форма, під нею глобус 390×450 з текстом зліва вгорі */
+  @media (max-width: 900px) {
+    .block7 { display: flex; flex-direction: column; height: auto; margin-top: var(--space-xl); }
+    .block7__form { order: 0; padding: var(--space-l) var(--gutter); }
+    /* «Request your» — перший рядок, «freight quote» — другий, як у макеті */
+    .block7__title { margin-top: var(--space-sm); max-width: var(--quote-title-mobile-width); }
+    .block7__fields { flex: none; margin-top: var(--space-50); }
+    .block7__globe { order: 1; flex: none; height: var(--globe-mobile-height); }
+    .block7__lead { top: var(--space-sm); left: var(--gutter); max-width: var(--globe-lead-mobile-width); font-size: var(--h4-size); line-height: var(--h4-lh); }
+    .block7__globe :global(.globe-pin__city) { font-size: var(--caption-size); }
+    .block7__globe :global(.globe-pin__country) { display: none; }
+    .block7__globe :global(.globe-pin__label) { padding: var(--space-xxs) var(--space-xs); }
+  }
+</style>

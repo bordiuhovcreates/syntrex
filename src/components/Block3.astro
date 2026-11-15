@@ -1,0 +1,73 @@
+---
+// Блок 3 — послуги (Figma: Block 03).
+import home from '../content/home.json';
+import { url } from '../lib/url';
+const { services } = home;
+---
+<section class="block3" id="block-3">
+  <p class="block3__label" data-anim="fade-up">{services.label}</p>
+  <h2 class="block3__title" data-anim="fade-up">{services.title}</h2>
+
+  <ul class="block3__list" role="list">
+    {services.items.map((item, i) => (
+      <li class="block3__item" data-anim="fade-up" style={`--i: ${i}`}>
+        <span class="block3__num">{String(i + 1).padStart(2, '0')}</span>
+        <h3 class="block3__name">{item.title}</h3>
+        <p class="block3__text">{item.text}</p>
+        {item.image && (
+          <span class="block3__media"><img class="block3__image" src={url(item.image)} alt={item.title} loading="lazy" width="445" height="310" /></span>
+        )}
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .block3 { padding: var(--block-gap-l) var(--gutter) 0; }
+
+  .block3__label { color: var(--color-accent); font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium); }
+  .block3__title {
+    margin-top: var(--space-m);
+    font-size: var(--h2-size); line-height: var(--h2-lh); font-weight: var(--weight-regular);
+  }
+
+  /* між послугами 20 — так само, як від лінії до вмісту всередині послуги */
+  .block3__list { display: grid; gap: var(--space-sm); margin-top: var(--space-xl); }
+
+  /* Рядок послуги: та сама сітка з 4 колонок, що й у Блоці 2.
+     Sticky: при скролі кожна наступна послуга наїжджає на попередню; від попередніх лишається
+     видно смужку з номером (зсув --stack-step на кожну), наприкінці списку всі їдуть далі разом */
+  .block3__item {
+    position: sticky; top: calc(var(--stack-top) + var(--i) * var(--stack-step));
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-sm);
+    align-items: start; padding-block: var(--space-sm);
+    border-top: 1px dashed var(--color-text-muted); background: var(--color-bg);
+    font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium);
+  }
+  .block3__num { color: var(--color-accent); }
+  .block3__name { font-size: var(--h3-size); line-height: var(--h3-lh); font-weight: var(--weight-medium); text-wrap: wrap; }
+  /* Тексти підібрані під цю ширину: 5 рівних рядків */
+  .block3__text { max-width: var(--service-text-width); text-wrap: wrap; }
+  /* Фото в рамці: при наведенні на послугу плавно збільшується, як фото новини на першому екрані */
+  .block3__media {
+    display: block; width: 100%; height: var(--client-card-height);
+    border-radius: var(--radius-card); overflow: hidden;
+  }
+  .block3__image {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+    transition: transform var(--hover-duration) var(--ease);
+  }
+  .block3__media:hover .block3__image { transform: scale(1.08); } /* лише при наведенні на саме фото */
+
+  /* Мобільні й планшет (Figma: mobile, 3 section): усе в одну колонку — номер, назва, текст, фото */
+  @media (max-width: 900px) {
+    .block3 { padding: var(--space-xl) var(--gutter) 0; }
+    .block3__title { margin-top: var(--space-sm); }
+    .block3__list { gap: var(--space-sm); margin-top: var(--space-50); }
+    .block3__item { display: flex; flex-direction: column; gap: 0; font-size: var(--caption-size); line-height: 1; }
+    .block3__num { line-height: 1; }
+    .block3__name { margin-top: var(--space-sm); }
+    .block3__text { max-width: none; margin-top: var(--space-sm); }
+    .block3__media { height: var(--service-image-mobile-height); margin-top: var(--space-sm); }
+  }
+</style>

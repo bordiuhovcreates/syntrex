@@ -1,0 +1,93 @@
+---
+// Сторінка новин (блог): надпис, заголовок в один рядок, текстові вкладки тем, рівна сітка карток з номерами.
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import blog from '../../content/blog.json';
+import { getNews } from '../../lib/news';
+
+const posts = await getNews();
+const categories = [...new Set(posts.map((p) => p.data.category))];
+---
+<Base title={blog.seoTitle} description={blog.seoDescription}>
+  <Header />
+  <main class="np">
+    <section class="np__head">
+      <p class="np__label" data-anim="fade-up">{blog.label}</p>
+      <h1 class="np__title" data-anim="fade-up">{blog.title}</h1>
+      <div class="np__tabs" role="toolbar" aria-label={blog.category} data-anim="fade-up">
+        <button type="button" class="np__tab is-active" data-filter="all" aria-pressed="true">{blog.all}<sup>{posts.length}</sup></button>
+        {categories.map((c) => (
+          <button type="button" class="np__tab" data-filter={c} aria-pressed="false">{c}<sup>{posts.filter((p) => p.data.category === c).length}</sup></button>
+        ))}
+      </div>
+    </section>
+
+    <ul class="np__grid" role="list">
+      {posts.map((post, i) => (
+        <li class="np__item" data-cat={post.data.category}><NewsCard post={post} index={i} /></li>
+      ))}
+    </ul>
+    <p class="np__empty" hidden data-empty>{blog.empty}</p>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .np {
+    padding: calc(var(--space-l) * 2 + var(--control-height)) var(--gutter) 0;
+    font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium);
+  }
+
+  /* Шапка: надпис, заголовок в один рядок, під ним прості текстові вкладки тем */
+  .np__label { color: var(--color-accent); }
+  .np__title { margin-top: var(--space-m); font-size: var(--h1-size); line-height: var(--h1-lh); font-weight: var(--weight-regular); white-space: nowrap; }
+
+  /* Вкладки тем: пунктирна рамка і скруглення як у пунктів меню, як скрізь на сайті, кількість статей маленьким числом; обрана — помаранчева */
+  .np__tabs { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-xl); }
+  .np__tab {
+    display: inline-flex; align-items: center; gap: var(--space-xxs);
+    height: var(--input-height); padding: 0 var(--space-m);
+    border: 1px dashed var(--color-text-muted); border-radius: var(--radius-btn);
+    color: var(--color-text);
+    transition: background-color var(--duration) var(--ease), border-color var(--duration) var(--ease), color var(--duration) var(--ease);
+  }
+  .np__tab sup { align-self: flex-start; margin-top: var(--space-s); font-size: var(--small-size); line-height: 1; color: var(--color-text-muted); }
+  .np__tab:hover { border-color: var(--color-text); }
+  .np__tab.is-active { border-color: var(--color-accent); background: var(--color-accent); color: var(--color-bg); }
+  .np__tab.is-active sup { color: var(--color-bg); }
+  .np__tab:focus-visible { outline: 2px solid var(--color-black); outline-offset: 3px; }
+
+  /* Рівна сітка: 4 колонки, усі картки однакової висоти; великий відступ від шапки — повітря */
+  .np__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-sm); margin-top: var(--space-xl); }
+  .np__item[hidden] { display: none; }
+  .np__item.is-in { animation: np-in 0.5s var(--ease) both; }
+  .np__empty { margin-top: var(--space-l); color: var(--color-text-muted); }
+  @keyframes np-in { from { opacity: 0; transform: translateY(var(--space-sm)); } to { opacity: 1; transform: none; } }
+
+  @media (max-width: 900px) {
+    .np__grid { grid-template-columns: 1fr; }
+    .np__title { white-space: normal; }
+  }
+</style>
+
+<script>
+  // Фільтр за темами
+  const opts = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+  const items = [...document.querySelectorAll<HTMLElement>('.np__item')];
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+
+  opts.forEach((opt) => opt.addEventListener('click', () => {
+    const f = opt.dataset.filter;
+    opts.forEach((o) => { const on = o === opt; o.classList.toggle('is-active', on); o.setAttribute('aria-pressed', String(on)); });
+    let shown = 0;
+    items.forEach((el) => {
+      const ok = f === 'all' || el.dataset.cat === f;
+      el.hidden = !ok;
+      el.classList.remove('is-in');
+      if (ok) { void el.offsetWidth; el.classList.add('is-in'); shown++; }
+    });
+    if (empty) empty.hidden = shown > 0;
+  }));
+</script>

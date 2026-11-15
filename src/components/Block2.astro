@@ -1,0 +1,141 @@
+---
+// Блок 2 — про компанію і клієнти (Figma: Block 02). Слайдер — атрибути data-slider у interactive.js.
+import home from '../content/home.json';
+import { url } from '../lib/url';
+const { about } = home;
+const arrow = 'M16.85 13.54H4.17v-2.08h12.68L11.02 5.63l1.48-1.46 8.33 8.33-8.33 8.33-1.48-1.46 5.83-5.83Z';
+---
+<section class="block2" id="block-2" data-slider>
+  <div class="block2__top">
+    <div class="block2__nav" data-anim="fade-up">
+      <button class="block2__arrow block2__arrow--prev" type="button" aria-label="Попередні" data-slider-prev>
+        <svg viewBox="0 0 25 25" fill="currentColor" aria-hidden="true"><path d={arrow} /></svg>
+      </button>
+      <button class="block2__arrow block2__arrow--next" type="button" aria-label="Наступні" data-slider-next>
+        <svg viewBox="0 0 25 25" fill="currentColor" aria-hidden="true"><path d={arrow} /></svg>
+      </button>
+    </div>
+
+    <div class="block2__text">
+      <p class="block2__label" data-anim="fade-up">{about.label}</p>
+      <h2 class="block2__title" data-anim="fade-up">
+        <span class="block2__accent">{about.titleAccent}</span><span data-reveal>{about.title}</span>
+      </h2>
+    </div>
+  </div>
+
+  <ul class="block2__track" role="list" data-slider-track data-anim="stagger">
+    {about.clients.map((c) => (
+      <li class="block2__card">
+        <span class="block2__name">{c.name}</span>
+        <span class="block2__logo">
+          {c.logo && (
+            <img
+              src={url(c.logo)} alt={c.name} loading="lazy"
+              width={c.logoWidth || 68} height={c.logoHeight || 65}
+              style={`--w: ${c.logoWidth || 68}; --h: ${c.logoHeight || 65}`}
+            />
+          )}
+        </span>
+        <span class="block2__category">{c.category}</span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .block2 { padding: var(--block-gap) var(--gutter) 0; }
+
+  /* Сітка з 4 колонок, як картки клієнтів; текст займає дві праві */
+  .block2__top {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-sm);
+    align-items: end; margin-bottom: var(--space-xl);
+  }
+  .block2__nav { display: flex; gap: var(--space-xs); }
+  .block2__text { grid-column: 3 / 5; }
+  .block2__label { color: var(--color-accent); font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium); }
+  .block2__title {
+    margin-top: var(--space-m);
+    font-size: var(--h2-size); line-height: var(--h2-lh); font-weight: var(--weight-regular);
+    text-wrap: wrap;
+  }
+  .block2__accent { color: var(--color-accent); }
+  /* Текст після помаранчевої фрази спершу світло-сірий і при скролі слово за словом стає чорним (animations.js) */
+  .block2__title :global([data-reveal] .word) { color: var(--color-text-faint); }
+
+  /* Кнопки слайдера */
+  .block2__arrow {
+    display: flex; align-items: center; justify-content: center;
+    width: var(--control-height); height: var(--control-height); border-radius: var(--radius-btn);
+    border: 1px dashed var(--color-text-muted); color: var(--color-black); overflow: hidden;
+    transition: background-color var(--hover-duration) var(--ease-soft), border-color var(--hover-duration) var(--ease-soft), color var(--hover-duration) var(--ease-soft);
+  }
+  .block2__arrow svg { width: var(--icon-m); height: var(--icon-m); }
+  .block2__arrow--prev svg { transform: rotate(180deg); }
+  /* При наведенні й натисканні — помаранчева, як друга стрілка в макеті */
+  .block2__arrow:hover, .block2__arrow:active {
+    background: var(--color-accent); border-color: var(--color-accent); color: var(--color-bg);
+  }
+  /* Стрілка вилітає і повертається, як у кнопок */
+  .block2__arrow:hover svg { animation: arrow-out var(--hover-duration) var(--ease-out); }
+  .block2__arrow--prev:hover svg { animation-name: arrow-out-back; }
+  .block2__arrow:focus-visible { outline: 2px solid var(--color-black); outline-offset: 3px; }
+
+  /* Картки клієнтів: 4 на екрані, гортаються по колу */
+  .block2__track {
+    display: grid; grid-auto-flow: column;
+    grid-auto-columns: calc((100% - var(--space-sm) * 3) / 4); gap: var(--space-sm);
+    overflow: hidden;
+  }
+  .block2__card {
+    position: relative; display: flex; flex-direction: column; justify-content: space-between;
+    height: var(--client-card-height); padding: var(--space-sm);
+    border: 1px dashed var(--color-text-muted); border-radius: var(--radius-card);
+    transition: background-color var(--hover-duration) var(--ease-soft), border-color var(--hover-duration) var(--ease-soft);
+  }
+  .block2__name { font-size: var(--h3-size); line-height: var(--h3-lh); font-weight: var(--weight-medium); transition: color var(--hover-duration) var(--ease-soft); }
+  .block2__category { transition: color var(--hover-duration) var(--ease-soft); color: var(--color-text-muted); font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: var(--weight-medium); }
+  .block2__logo {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    display: flex; align-items: center; justify-content: center;
+    width: var(--client-logo-box); height: var(--client-logo-box);
+    border: 1px dashed var(--color-text-muted); border-radius: var(--radius-card);
+    transition: border-color var(--hover-duration) var(--ease-soft);
+  }
+  .block2__logo img {
+    width: calc(var(--w) * var(--px)); height: calc(var(--h) * var(--px)); object-fit: contain;
+    /* без transition: логотип стає білим одразу, без проміжного чорного */
+  }
+
+  /* Активна картка (наведення на ПК, на мобільному — та, що зліва при гортанні):
+     замість пунктиру помаранчева заливка, логотип і його рамка білі */
+  .block2__card.is-active { background: var(--color-accent); border-color: var(--color-accent); }
+  .block2__card.is-active :is(.block2__name, .block2__category) { color: var(--color-bg); }
+  .block2__card.is-active .block2__logo { border-color: var(--color-bg); }
+  .block2__card.is-active .block2__logo img { filter: brightness(0) invert(1); }
+  @media (hover: hover) {
+    .block2__card:hover { background: var(--color-accent); border-color: var(--color-accent); }
+    .block2__card:hover :is(.block2__name, .block2__category) { color: var(--color-bg); }
+    .block2__card:hover .block2__logo { border-color: var(--color-bg); }
+    .block2__card:hover .block2__logo img { filter: brightness(0) invert(1); }
+  }
+
+  /* Мобільні й планшет (Figma: mobile, 2 section): заголовок 40 px, картки клієнтів гортаються пальцем */
+  @media (max-width: 900px) {
+    .block2 { padding: var(--space-xl) var(--gutter) 0; }
+    .block2__top { display: block; margin-bottom: var(--space-50); }
+    .block2__nav { display: none; }
+    /* заголовок не доходить до краю екрана: справа те саме поле 20 px, що й зліва */
+    .block2__title { margin-top: var(--space-sm); text-wrap: balance; }
+    .block2__track {
+      grid-auto-columns: var(--client-card-mobile-width); gap: var(--space-xs);
+      margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+      overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    }
+    .block2__track::-webkit-scrollbar { display: none; }
+    .block2__card { scroll-snap-align: start; }
+    .block2__name { font-size: var(--h3-size); }
+    .block2__category { font-size: var(--caption-size); }
+    .block2__logo img { width: calc(var(--w) * var(--client-logo-scale)); height: calc(var(--h) * var(--client-logo-scale)); }
+  }
+</style>

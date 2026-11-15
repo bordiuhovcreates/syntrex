@@ -1,0 +1,329 @@
+/*
+  Змінні проєкту. Claude замінює ці значення змінними з вашого макета Figma:
+  кольори, стилі тексту, відступи. Нові кольори й розміри в коді не з'являються —
+  тільки через ці змінні.
+*/
+:root {
+  /* Кольори */
+  /* Палітра UI-кіта: Orange, Black, Soft Gray, Gray, Silver Gray */
+  --color-accent: #ff5d00;
+  --color-black: #0f0f0f;
+  --color-bg: #fafafa;
+  --color-bg-gray: #f2f2f2;
+  --color-text: #0f0f0f;
+  --color-text-muted: #aeaeae;
+  --color-text-faint: #c8c8c8; /* текст до проявлення при скролі (блок 2) */
+  --color-border: #f2f2f2;
+  --color-overlay: rgba(32, 32, 32, 0.4);
+  --color-dark: #202020;
+  --color-space: #0b0c0e; /* фон глобуса в Блоці 7 */
+  --color-accent-glow: rgba(255, 93, 0, 0.45);
+  --globe-tag-bg: rgba(20, 21, 24, 0.82); /* підпис локації на глобусі */
+  --color-time-glass: rgba(242, 242, 242, 0.2); /* «6 min. read» на фото новини */
+  --color-input: rgba(250, 250, 250, 0.15);
+  --color-input-solid: #fe7526; /* те саме поле, непрозорим кольором (для автозаповнення) */
+  --color-placeholder: rgba(250, 250, 250, 0.3);
+
+  /* Темне скло (картки з цифрами в Блоці 4) */
+  --glass-bg: linear-gradient(160deg, rgba(250, 250, 250, 0.08), rgba(250, 250, 250, 0) 60%), rgba(15, 15, 15, 0.35);
+  --glass-edge: rgba(250, 250, 250, 0.08);
+  --glass-divider: rgba(250, 250, 250, 0.3);
+  --glass-blur: 30px;
+
+  /* Шрифти */
+  --font-main: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Стилі тексту: розмір / висота рядка / насиченість.
+     Максимум у clamp — розмір з макета (1920 px), мінімум — для мобільного. */
+  --h1-size: 140px;
+  --h1-lh: 0.9;
+  --h2-size: clamp(36px, 5.5vw, 80px);
+  --h2-lh: 1;
+  /* Від базової лінії заголовка H2 до низу його рядка (метрики Inter Tight: 0.136 від розміру шрифту) —
+     щоб ставити кнопки рівно по низу літер заголовка */
+  --h2-descent: calc(var(--h2-size) * 0.136);
+  --h3-size: clamp(20px, 2vw, 28px);
+  --h3-lh: 1;
+  --h4-size: 18px;
+  --h4-lh: 1.01;
+  --display-size: var(--h1-size);
+  --display-lh: var(--h1-lh);
+  --number-size: var(--h2-size);
+  --body-size: var(--h4-size);
+  --body-lh: 1.5;
+  --small-size: 16px;
+  --small-lh: 1;
+  --caption-size: 14px;
+  --button-size: var(--h4-size);
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 600;
+
+  /* Відступи */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 80px;
+  --space-7: 120px;
+  --section-gap: clamp(var(--space-6), 10vw, var(--space-7));
+  /* Відступи з макета */
+  --space-xxs: 5px;
+  --space-xs: 10px;
+  --space-s: 15px;
+  --space-m: 30px;
+  --space-l: 40px;
+  --space-sm: 20px;
+  --space-xl: 100px;
+  --block-gap: 210px;
+  --block-gap-l: 250px;
+  --space-lg: 80px;
+  --space-28: 28px;
+  --space-60: 60px;
+  --space-90: 90px;
+  --space-70: 70px;
+
+  /* Один піксель макета (на десктопі масштабується, див. нижче) */
+  --px: 1px;
+
+  /* Розміри елементів з макета */
+  --control-height: 70px;
+  --nav-item-width: 135px;
+  --quote-width: 155px;
+  --more-width: 215px;
+  --hero-text-width: 445px;
+  --news-card-width: 445px;
+  --news-image-size: 150px;
+  --logo-width: 60px;
+  --icon-m: 25px;
+  --icon-s: 15px;
+  --dot-size: 6px;
+  --client-card-height: 310px;
+  --client-logo-box: 110px;
+  --service-text-width: 365px;
+  --block4-height: 1200px;
+  --block4-title-width: 1395px;
+  --stat-card-height: 220px;
+  --perk-height: 620px;
+  --perk-icon-box: 100px;
+  --perk-icon: 50px;
+  --perk-text-width: 364px;
+  --process-title-width: 484px;
+  --process-text-width: 395px;
+  --stage-height: 330px;
+  --stage-text-width: 423px;
+  --stage-dot: 10px;
+  --input-height: 60px;
+  --quote-title-width: 484px;
+  --quote-lead-width: 475px;
+  --globe-marker: 50px;
+  --news-card-image-height: 290px;
+  --news-text-width: 388px;
+  --news-time-pad-x: 14px;
+  --news-time-blur: 15px;
+  --footer-main-height: 740px;
+  --footer-address-width: 260px;
+  --footer-legal-gap: 47px;
+  --newsletter-field-width: 380px;
+
+  /* Сторінки новин */
+  --chip-height: 46px;
+  --featured-image-height: 560px;
+  --cover-height: 760px;
+  --article-width: 760px;
+  --article-size: 20px;
+  --article-lh: 1.6;
+  --progress-height: 3px;
+  --article-title-width: 1100px;
+  --toc-num-width: 40px;
+  --article-col-width: 910px;
+  --legal-text-width: 1375px; /* три колонки сітки: 3 × 445 + 2 × 20, від лівого краю */
+  --article-photo-height: 560px;
+
+  /* Сітка */
+  --container: 1280px;
+  --gutter: clamp(16px, 4vw, 40px);
+
+  /* Радіуси */
+  --radius-btn: 5px;
+  --radius-card: 10px;
+  --radius-s: 8px;
+  --radius-m: 16px;
+  --radius-l: 24px;
+  --radius-pill: 999px;
+
+  /* Анімації */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 0.3s;
+  /* Наведення на кнопки зі стрілкою */
+  --hover-duration: 0.6s;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --arrow-travel: 30px;           /* на скільки стрілка вилітає з квадрата */
+  /* Контейнер на першому екрані */
+  --drop-duration: 1.4s;
+  --drop-delay: 0.15s;
+  --ease-drop: cubic-bezier(0.55, 0, 0.45, 1);
+  --fade-duration: 0.5s;
+  --slide-duration: 0.9s;          /* гортання карток стрілками */
+  --ease-slide: cubic-bezier(0.65, 0, 0.35, 1); /* м'який старт і м'яка зупинка */
+  --color-on-accent-muted: rgba(0, 0, 0, 0.4);  /* сірий текст на помаранчевому */
+  --roll-duration: 0.5s;
+  --underline-duration: 0.45s;    /* полоска під посиланнями у футері */
+  --dot-duration: 0.25s;          /* збільшення крапки на картках етапів */
+  --process-top: 100px;           /* де липнуть заголовок і картки етапів (блок 6) */
+  /* Послуги (блок 3), що наїжджають одна на одну при скролі */
+  --stack-top: 40px;              /* відступ від верху екрана, де зупиняється перша послуга */
+  --stack-step: 0px;              /* 0 — кожна наступна послуга лягає точно на попередню, лінія на лінію */
+  --hero-cut: 80px;               /* при скролі контейнер обрізається на стільки вище тексту блоку 2 */
+
+  /* Шапка */
+  --header-height: 72px;
+}
+
+/*
+  Десктоп: макет 1920×1080 масштабується пропорційно екрану.
+  --px — один піксель макета. Береться менший масштаб з ширини й висоти,
+  щоб перший екран завжди вміщався цілком, як у Figma.
+*/
+@media (min-width: 901px) {
+  :root {
+    --px: min(100vw / 1920, 100svh / 1080);
+
+    --h1-size: calc(140 * var(--px));
+    --h2-size: calc(80 * var(--px));
+    --h3-size: calc(28 * var(--px));
+    --h4-size: calc(18 * var(--px));
+    --small-size: calc(16 * var(--px));
+
+    --gutter: calc(40 * var(--px));
+    --space-xxs: calc(5 * var(--px));
+    --space-xs: calc(10 * var(--px));
+    --space-s: calc(15 * var(--px));
+    --space-m: calc(30 * var(--px));
+    --space-l: calc(40 * var(--px));
+    --space-sm: calc(20 * var(--px));
+    --space-xl: calc(100 * var(--px));
+    --block-gap: calc(210 * var(--px));
+    --block-gap-l: calc(250 * var(--px));
+    --space-lg: calc(80 * var(--px));
+    --space-28: calc(28 * var(--px));
+    --space-60: calc(60 * var(--px));
+    --space-90: calc(90 * var(--px));
+    --space-70: calc(70 * var(--px));
+
+    --control-height: calc(70 * var(--px));
+    --nav-item-width: calc(135 * var(--px));
+    --quote-width: calc(155 * var(--px));
+    --more-width: calc(215 * var(--px));
+    --hero-text-width: calc(445 * var(--px));
+    --news-card-width: calc(445 * var(--px));
+    --news-image-size: calc(150 * var(--px));
+    --logo-width: calc(60 * var(--px));
+    --icon-m: calc(25 * var(--px));
+    --icon-s: calc(15 * var(--px));
+    --dot-size: calc(6 * var(--px));
+    --client-card-height: calc(310 * var(--px));
+    --client-logo-box: calc(110 * var(--px));
+    --service-text-width: calc(365 * var(--px));
+    --block4-height: calc(1200 * var(--px));
+    --block4-title-width: calc(1395 * var(--px));
+    --stat-card-height: calc(220 * var(--px));
+    --perk-height: calc(620 * var(--px));
+    --perk-icon-box: calc(100 * var(--px));
+    --perk-icon: calc(50 * var(--px));
+    --perk-text-width: calc(364 * var(--px));
+    --process-title-width: calc(484 * var(--px));
+    --process-text-width: calc(395 * var(--px));
+    --stage-height: calc(330 * var(--px));
+    --stage-text-width: calc(423 * var(--px));
+    --stage-dot: calc(10 * var(--px));
+    --input-height: calc(60 * var(--px));
+    --quote-title-width: calc(484 * var(--px));
+    --quote-lead-width: calc(475 * var(--px));
+    --globe-marker: calc(50 * var(--px));
+    --news-card-image-height: calc(290 * var(--px));
+    --news-text-width: calc(388 * var(--px));
+    --news-time-pad-x: calc(14 * var(--px));
+    --news-time-blur: calc(15 * var(--px));
+    --footer-main-height: calc(740 * var(--px));
+    --footer-address-width: calc(260 * var(--px));
+    --footer-legal-gap: calc(47 * var(--px));
+    --newsletter-field-width: calc(380 * var(--px));
+    --chip-height: calc(46 * var(--px));
+    --featured-image-height: calc(560 * var(--px));
+    --cover-height: calc(760 * var(--px));
+    --article-width: calc(760 * var(--px));
+    --article-size: calc(20 * var(--px));
+    --article-title-width: calc(1100 * var(--px));
+    --toc-num-width: calc(40 * var(--px));
+    --article-col-width: calc(910 * var(--px));
+    --legal-text-width: calc(1375 * var(--px));
+    --article-photo-height: calc(560 * var(--px));
+    --glass-blur: calc(30 * var(--px));
+
+    --radius-btn: calc(5 * var(--px));
+    --radius-card: calc(10 * var(--px));
+    --arrow-travel: calc(30 * var(--px));
+    --hero-cut: calc(80 * var(--px));
+    --process-top: calc(100 * var(--px));
+    --stack-top: calc(40 * var(--px));
+    --stack-step: 0px;
+  }
+}
+
+/*
+  Мобільні й планшет (до 900 px): значення з мобільного макета 390 px (Figma: 1 section).
+*/
+@media (max-width: 900px) {
+  :root {
+    --gutter: 20px;
+    --h1-size: 60px;
+    --logo-width: 26px;
+    --header-height: 80px;          /* 20 + кнопка Menu 40 + 20 */
+    --menu-btn-width: 60px;
+    --menu-btn-height: 40px;
+    --radius-xs: 3px;               /* кнопка Menu */
+    /* Контейнер на першому екрані: 668 px при ширині 390 (171.4%), на планшеті — не більше 1100 px */
+    --hero-image-mobile: min(171.4vw, 1100px);
+    --hero-text-mobile-width: 330px;
+    /* Блоки 2–6 (Figma: mobile) */
+    --h2-size: 40px;
+    --h2-lh: 1;
+    --h3-size: 20px;
+    --h3-lh: 1;
+    --space-50: 50px;               /* заголовок блоку → вміст */
+    --client-card-mobile-width: 320px;
+    --client-card-height: 225px;
+    --client-logo-box: 80px;
+    --client-logo-scale: 0.72px;     /* логотипи клієнтів: 72% від розміру на десктопі */
+    --stat-card-height: 166px;
+    --perk-icon-box: 60px;
+    --perk-icon: 30px;
+    --stage-dot: 5px;
+    --service-image-mobile-height: 244px;
+    --process-title-mobile-width: 270px;
+    --perk-text-mobile-width: 295px;
+    --process-text-mobile-width: 266px;
+    /* Блок 7 */
+    --globe-mobile-height: 450px;
+    --quote-title-mobile-width: 280px;
+    --globe-lead-mobile-width: 330px;
+    --globe-marker: 32px;
+    --field-mobile-height: 54px;
+    --textarea-mobile-height: 100px;
+    /* Блоки 8–9 */
+    --news-image-mobile-height: 227px;
+    --icon-social-mobile: 22px;
+    --process-top: 20px;            /* мобільний: картки етапів липнуть ближче до верху */
+    /* Сторінка статті */
+    --article-size: 18px;
+    --article-col-width: 100%;      /* фото в тексті — на всю ширину колонки */
+    --article-photo-height: 240px;
+    --menu-link-size: 40px;         /* пункти мобільного меню */
+    --menu-address-width: 138px;
+    --color-on-accent-muted: rgba(0, 0, 0, 0.4);  /* сірий текст на помаранчевому */
+    --color-on-accent-line: rgba(0, 0, 0, 0.3);   /* пунктир на помаранчевому */
+  }
+}

@@ -1,0 +1,468 @@
+# Налаштування адмінки Pages CMS (app.pagescms.org)
+# Тут описано, що клієнт може редагувати. Додаєте новий блок на сайт —
+# попросіть Claude додати його поля і сюди.
+
+media:
+  input: public/images
+  output: /images
+content:
+- name: settings
+  label: Налаштування сайту
+  type: file
+  path: src/content/settings.json
+  format: json
+  fields:
+  - name: seo
+    label: SEO
+    type: object
+    fields:
+    - name: title
+      label: Заголовок сторінки
+      type: string
+    - name: description
+      label: Опис для пошуку
+      type: text
+    - name: ogImage
+      label: Картинка для соцмереж (1200×630)
+      type: image
+  - name: header
+    label: Шапка
+    type: object
+    fields:
+    - name: logo
+      label: Назва компанії (підпис логотипа і футер)
+      type: string
+    - name: logoImage
+      label: Логотип
+      type: image
+    - name: button
+      label: Текст кнопки
+      type: string
+    - name: menu
+      label: Кнопка меню на телефоні (Menu)
+      type: string
+    - name: close
+      label: Та сама кнопка, коли меню відкрите (Close)
+      type: string
+    - name: menuButton
+      label: Кнопка в мобільному меню (веде до форми заявки)
+      type: string
+    - name: navLeft
+      label: Пункти меню зліва від логотипа
+      type: object
+      list: true
+      fields:
+      - name: label
+        label: Назва
+        type: string
+      - name: href
+        label: 'Посилання на блок, наприклад #block-3'
+        type: string
+    - name: navRight
+      label: Пункти меню справа від логотипа
+      type: object
+      list: true
+      fields:
+      - name: label
+        label: Назва
+        type: string
+      - name: href
+        label: 'Посилання на блок, наприклад #block-5'
+        type: string
+  - name: contacts
+    label: Контакти
+    type: object
+    fields:
+    - name: phone
+      label: Телефон
+      type: string
+    - name: email
+      label: Email
+      type: string
+    - name: address
+      label: Адреса офісу
+      type: string
+    - name: mapUrl
+      label: Посилання на адресу в Google Maps (якщо порожньо — карта шукає адресу сама)
+      type: string
+  - name: footer
+    label: Футер
+    type: object
+    fields:
+    - name: sitemapTitle
+      label: Заголовок меню (Sitemap)
+      type: string
+    - name: contactsTitle
+      label: Заголовок контактів
+      type: string
+    - name: officeTitle
+      label: Заголовок адреси
+      type: string
+    - name: newsletter
+      label: Підписка на розсилку
+      type: object
+      fields:
+      - { name: title, label: "Заголовок", type: string }
+      - { name: placeholder, label: "Підказка в полі", type: string }
+      - { name: button, label: "Підпис кнопки (для незрячих)", type: string }
+      - { name: sending, label: "Текст під час надсилання", type: string }
+      - { name: success, label: "Подяка після підписки", type: string }
+      - { name: error, label: "Текст помилки", type: string }
+    - name: upLabel
+      label: Підпис кнопки «нагору» (для незрячих)
+      type: string
+    - name: socials
+      label: Соцмережі
+      type: object
+      list: true
+      fields:
+      - { name: name, label: "Назва", type: string }
+      - { name: url, label: "Посилання", type: string }
+      - { name: icon, label: "Іконка (біла, SVG 25×25)", type: image }
+    - name: legal
+      label: Посилання внизу (Privacy Policy, Terms of Use)
+      type: object
+      list: true
+      fields:
+      - { name: label, label: "Текст", type: string }
+      - { name: href, label: "Посилання", type: string }
+    - name: rights
+      label: Текст «All rights reserved»
+      type: string
+    - name: credit
+      label: Розробник сайту
+      type: object
+      fields:
+      - { name: label, label: "Текст", type: string }
+      - { name: url, label: "Посилання", type: string }
+- name: home
+  label: Головна сторінка
+  type: file
+  path: src/content/home.json
+  format: json
+  fields:
+  - name: hero
+    label: Перший екран
+    type: object
+    fields:
+    - name: titleStart
+      label: Заголовок — перший рядок
+      type: string
+    - name: titleAccent
+      label: Заголовок — другий рядок (помаранчевий)
+      type: string
+    - name: titleEnd
+      label: Заголовок — третій рядок
+      type: string
+    - name: subtitle
+      label: Підзаголовок
+      type: text
+    - name: button
+      label: Текст кнопки
+      type: string
+    - name: buttonLink
+      label: 'Куди веде кнопка, наприклад #block-2'
+      type: string
+    - name: image
+      label: Зображення (1920×1080, прозорий фон)
+      type: image
+    - name: news
+      label: Картка новини
+      type: object
+      fields:
+      - name: label
+        label: Надпис зверху
+        type: string
+      - name: title
+        label: Заголовок новини
+        type: string
+      - name: text
+        label: Підпис під заголовком
+        type: string
+      - name: image
+        label: Зображення (квадратне)
+        type: image
+      - name: link
+        label: 'Посилання, наприклад #block-6'
+        type: string
+  - name: about
+    label: Блок 2 — про компанію і клієнти
+    type: object
+    fields:
+    - name: label
+      label: Надпис над заголовком
+      type: string
+    - name: titleAccent
+      label: Початок заголовка (помаранчевий)
+      type: string
+    - name: title
+      label: Продовження заголовка
+      type: text
+    - name: clients
+      label: Клієнти (картки слайдера)
+      type: object
+      list: true
+      fields:
+      - name: name
+        label: Назва компанії
+        type: string
+      - name: category
+        label: Галузь
+        type: string
+      - name: logo
+        label: Логотип
+        type: image
+      - name: logoWidth
+        label: Ширина логотипа, px (як у макеті)
+        type: number
+      - name: logoHeight
+        label: Висота логотипа, px (як у макеті)
+        type: number
+  - name: services
+    label: Блок 3 — послуги
+    type: object
+    fields:
+    - name: label
+      label: Надпис над заголовком
+      type: string
+    - name: title
+      label: Заголовок
+      type: string
+    - name: items
+      label: Послуги (номери 01, 02… ставляться автоматично)
+      type: object
+      list: true
+      fields:
+      - name: title
+        label: Назва послуги
+        type: string
+      - name: text
+        label: Опис
+        type: text
+      - name: image
+        label: Зображення (445×310)
+        type: image
+  - name: stats
+    label: Блок 4 — фото і цифри
+    type: object
+    fields:
+    - name: title
+      label: Текст на фото
+      type: text
+    - name: button
+      label: Текст кнопки
+      type: string
+    - name: video
+      label: Відео на фоні (MP4, 1920×1080)
+      type: file
+    - name: videoMobile
+      label: Відео на фоні для телефона (MP4, вертикальне)
+      type: file
+    - name: poster
+      label: Картинка, поки вантажиться відео (1920×1080)
+      type: image
+    - name: posterMobile
+      label: Картинка, поки вантажиться відео, для телефона
+      type: image
+    - name: items
+      label: 'Цифри (3 картки: перша — справа зверху, далі — нижній ряд)'
+      type: object
+      list: true
+      fields:
+      - name: number
+        label: Число
+        type: number
+      - name: suffix
+        label: 'Знак після числа: + або %'
+        type: string
+      - name: label
+        label: Підпис
+        type: string
+  - name: perks
+    label: Блок 5 — переваги
+    type: object
+    fields:
+    - name: label
+      label: Надпис над заголовком
+      type: string
+    - name: title
+      label: Заголовок
+      type: string
+    - name: items
+      label: Переваги (3 колонки)
+      type: object
+      list: true
+      fields:
+      - name: title
+        label: Назва
+        type: string
+      - name: text
+        label: Опис
+        type: text
+      - name: icon
+        label: Іконка (біла, SVG 50×50)
+        type: image
+  - name: process
+    label: Блок 6 — етапи доставки
+    type: object
+    fields:
+    - name: label
+      label: Надпис над заголовком
+      type: string
+    - name: title
+      label: Заголовок
+      type: string
+    - name: text
+      label: Текст під заголовком
+      type: text
+    - name: button
+      label: Текст кнопки
+      type: string
+    - name: stages
+      label: Етапи (картки праворуч)
+      type: object
+      list: true
+      fields:
+      - name: label
+        label: Надпис зверху картки (сірий)
+        type: string
+      - name: title
+        label: Назва етапу
+        type: string
+      - name: text
+        label: Опис
+        type: text
+  - name: quote
+    label: Блок 7 — глобус і форма заявки
+    type: object
+    fields:
+    - name: lead
+      label: Текст над глобусом
+      type: text
+    - name: label
+      label: Надпис над заголовком форми
+      type: string
+    - name: title
+      label: Заголовок форми
+      type: string
+    - name: form
+      label: Поля форми
+      type: object
+      fields:
+      - { name: firstName, label: "Ім'я (обов'язкове)", type: object, fields: [{ name: label, label: "Підпис", type: string }, { name: placeholder, label: "Підказка в полі", type: string }] }
+      - { name: lastName, label: "Прізвище", type: object, fields: [{ name: label, label: "Підпис", type: string }, { name: placeholder, label: "Підказка в полі", type: string }] }
+      - { name: email, label: "Email (обов'язкове)", type: object, fields: [{ name: label, label: "Підпис", type: string }, { name: placeholder, label: "Підказка в полі", type: string }] }
+      - { name: phone, label: "Телефон (обов'язкове)", type: object, fields: [{ name: label, label: "Підпис", type: string }, { name: placeholder, label: "Підказка в полі", type: string }] }
+      - { name: company, label: "Компанія", type: object, fields: [{ name: label, label: "Підпис", type: string }, { name: placeholder, label: "Підказка в полі", type: string }] }
+      - { name: message, label: "Повідомлення (обов'язкове)", type: object, fields: [{ name: label, label: "Підпис", type: string }, { name: placeholder, label: "Підказка в полі", type: string }] }
+      - { name: button, label: "Текст кнопки", type: string }
+      - { name: sending, label: "Текст кнопки під час надсилання", type: string }
+      - { name: error, label: "Текст помилки", type: string }
+      - { name: successTitle, label: "Подяка після надсилання — заголовок", type: string }
+      - { name: successText, label: "Подяка після надсилання — текст", type: text }
+      - { name: again, label: "Кнопка «Надіслати ще одну заявку»", type: string }
+    - name: hubs
+      label: Локації на глобусі
+      type: object
+      list: true
+      fields:
+      - name: city
+        label: Місто
+        type: string
+      - name: country
+        label: Країна
+        type: string
+      - name: lat
+        label: Широта (з Google Maps, перше число)
+        type: number
+      - name: lon
+        label: Довгота (з Google Maps, друге число)
+        type: number
+  - name: news
+    label: Блок 8 — новини
+    type: object
+    fields:
+    - name: label
+      label: Надпис над заголовком
+      type: string
+    - name: title
+      label: Заголовок
+      type: string
+    - name: allButton
+      label: Кнопка «Усі новини»
+      type: string
+- name: news-posts
+  label: Новини — статті
+  type: collection
+  path: src/content/news
+  format: yaml-frontmatter
+  filename: '{primary}.md'
+  view:
+    fields: [title, category, date]
+    sort: [date]
+    default:
+      sort: date
+      order: desc
+  fields:
+  - name: title
+    label: Заголовок статті
+    type: string
+    required: true
+  - name: description
+    label: Короткий опис (на картці і в пошуку Google)
+    type: text
+    required: true
+  - name: category
+    label: Тема (за нею працює фільтр на сторінці новин)
+    type: string
+    required: true
+  - name: date
+    label: Дата публікації
+    type: date
+    required: true
+  - name: image
+    label: Фото для картки (810×580)
+    type: image
+    required: true
+  - name: cover
+    label: Картинка для соцмереж, коли діляться статтею (1200×630 або ширша)
+    type: image
+  - name: draft
+    label: Чернетка (не показувати на сайті)
+    type: boolean
+  - name: body
+    label: Текст статті (час читання рахується автоматично)
+    type: rich-text
+- name: blog
+  label: Сторінка новин — тексти
+  type: file
+  path: src/content/blog.json
+  format: json
+  fields:
+  - { name: seoTitle, label: "Заголовок сторінки для пошуку", type: string }
+  - { name: seoDescription, label: "Опис для пошуку", type: text }
+  - { name: label, label: "Надпис над заголовком", type: string }
+  - { name: title, label: "Заголовок", type: string }
+  - { name: all, label: "Вкладка «усі теми»", type: string }
+  - { name: readArticle, label: "На картці: «Читати статтю»", type: string }
+  - { name: empty, label: "Текст, якщо в темі немає статей", type: string }
+  - { name: minRead, label: "Після числа хвилин (min. read)", type: string }
+  - { name: category, label: "Підпис вкладок тем (для незрячих)", type: string }
+- name: legal-pages
+  label: Юридичні сторінки (Privacy Policy, Terms of Use)
+  type: collection
+  path: src/content/legal
+  format: yaml-frontmatter
+  filename: '{primary}.md'
+  fields:
+  - { name: title, label: "Заголовок", type: string, required: true }
+  - { name: description, label: "Опис для пошуку Google", type: text, required: true }
+  - { name: updated, label: "Дата останнього оновлення", type: date, required: true }
+  - { name: body, label: "Текст (розділи — заголовки другого рівня)", type: rich-text }
+- name: legal-texts
+  label: Юридичні сторінки — підписи
+  type: file
+  path: src/content/legal.json
+  format: json
+  fields:
+  - { name: updated, label: "Перед датою оновлення (Last updated)", type: string }
