@@ -98,6 +98,8 @@ const arrow = 'M16.85 13.54H4.17v-2.08h12.68L11.02 5.63l1.48-1.46 8.33 8.33-8.33
   .footer__col--mail { grid-column: 3 / 5; grid-row: 2; }
   .footer__title, .footer__muted { color: var(--color-text-muted); }
   .footer__list { display: flex; flex-direction: column; gap: var(--space-xs); align-items: flex-start; }
+  /* Зона натискання не менше 24 px (вимога доступності); текст притиснутий донизу, тож полоска на місці */
+  .footer__list a { display: inline-flex; align-items: flex-end; min-height: var(--target-min); }
   .footer__list a, .footer__list button, .footer__legal a, .footer__credit { transition: color var(--duration) var(--ease); }
   .footer__list a:hover, .footer__list button:hover, .footer__legal a:hover, .footer__credit:hover, .footer__map:hover { color: var(--color-accent); }
   /* Полоска під посиланням (як на hawk-style.com): при наведенні плавно виїжджає зліва направо,
