@@ -144,6 +144,13 @@ function initHang() {
 // Проявлення тексту при скролі: слова з сірого стають кольору тексту, у такт прокрутці
 function initReveal() {
   if (reduce) return; // без анімації текст одразу звичайного кольору
+  // Слова фарбуються в світлий колір лише з першим скролом: блок нижче першого екрана,
+  // тож відвідувач різниці не бачить, а сторінка при завантаженні має нормальний контраст тексту
+  if (window.scrollY > 0) return startReveal();
+  window.addEventListener('scroll', startReveal, { once: true, passive: true });
+}
+
+function startReveal() {
   document.querySelectorAll('[data-reveal]').forEach((el) => {
     const color = getComputedStyle(el).color; // кінцевий колір — звичайний колір тексту
     const parts = el.textContent.split(/(\s+)/);
@@ -169,8 +176,12 @@ function initReveal() {
 function roll(el, start) {
   const target = Number(el.dataset.count) || 0;
   const text = (el.dataset.separator !== undefined ? target.toLocaleString('en-US') : String(target)) + (el.dataset.suffix || '');
-  el.setAttribute('aria-label', text);
+  // Для скрінрідерів — звичайний текст числа (aria-label на span не дозволений)
   el.textContent = '';
+  const sr = document.createElement('span');
+  sr.className = 'visually-hidden';
+  sr.textContent = text;
+  el.append(sr);
   const strips = [];
   [...text].forEach((ch) => {
     if (!/\d/.test(ch)) {

@@ -39,10 +39,16 @@ const ogImage = og ? new URL(url(og), Astro.site).href : '';
     <!-- Шрифти з макета: Inter Tight (латиниця + кирилиця) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Шрифт завантажується, не блокуючи відображення сторінки -->
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" />
+    </noscript>
     <slot name="head" />
   </head>
   <body id="top">
